@@ -14,5 +14,6 @@
     "react/jsx-quotes": 0,
     "jsx-quotes": 0,
     "eol-last": 0,
+    "max-len": 0,
   }
 }

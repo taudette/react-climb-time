@@ -7,9 +7,87 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _alt = require('../alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+var _underscore = require('underscore');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var NavbarActions = function () {
+  function NavbarActions() {
+    _classCallCheck(this, NavbarActions);
+
+    this.generateActions('updateOnlineUsers', 'updateAjaxAnimation', 'updateSearchQuery', 'getCharacterCountSuccess', 'getCharacterCountFail', 'findCharacterSuccess', 'findCharacterFail');
+  }
+
+  _createClass(NavbarActions, [{
+    key: 'findCharacter',
+    value: function findCharacter(payload) {
+      var _this = this;
+
+      $.ajax({
+        url: '/api/characters/search',
+        data: { name: payload.searchQuery }
+      }).done(function (data) {
+        (0, _underscore.assign)(payload, data);
+        _this.actions.findCharacterSuccess(payload);
+      }).fail(function () {
+        _this.actions.findCharacterFail(payload);
+      });
+    }
+  }, {
+    key: 'getCharacterCount',
+    value: function getCharacterCount() {
+      var _this2 = this;
+
+      $.ajax({ url: '/api/characters/count' }).done(function (data) {
+        _this2.actions.getCharacterCountSuccess(data);
+      }).fail(function (jqXhr) {
+        _this2.actions.getCharacterCountFail(jqXhr);
+      });
+    }
+  }]);
+
+  return NavbarActions;
+}();
+
+exports.default = _alt2.default.createActions(NavbarActions);
+
+},{"../alt":2,"underscore":"underscore"}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _alt = require('alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = new _alt2.default();
+
+},{"alt":"alt"}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _Navbar = require('./Navbar');
+
+var _Navbar2 = _interopRequireDefault(_Navbar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,6 +112,7 @@ var App = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(_Navbar2.default, { history: this.props.history }),
         this.props.children
       );
     }
@@ -44,7 +123,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"react":"react"}],2:[function(require,module,exports){
+},{"./Navbar":5,"react":"react"}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -90,7 +169,246 @@ var Home = function (_React$Component) {
 
 exports.default = Home;
 
-},{"react":"react"}],3:[function(require,module,exports){
+},{"react":"react"}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+var _NavbarStore = require('../stores/NavbarStore');
+
+var _NavbarStore2 = _interopRequireDefault(_NavbarStore);
+
+var _NavbarActions = require('../actions/NavbarActions');
+
+var _NavbarActions2 = _interopRequireDefault(_NavbarActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Navbar = function (_React$Component) {
+  _inherits(Navbar, _React$Component);
+
+  function Navbar(props) {
+    _classCallCheck(this, Navbar);
+
+    var _this = _possibleConstructorReturn(this, (Navbar.__proto__ || Object.getPrototypeOf(Navbar)).call(this, props));
+
+    _this.state = _NavbarStore2.default.getState();
+    _this.onChange = _this.onChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(Navbar, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      _NavbarStore2.default.listen(this.onChange);
+      _NavbarActions2.default.getCharacterCount();
+
+      var socket = io.connect();
+
+      socket.on('onlineUsers', function (data) {
+        _NavbarActions2.default.updateOnlineUsers(data);
+      });
+
+      $(document).ajaxStart(function () {
+        _NavbarActions2.default.updateAjaxAnimation('fadeIn');
+      });
+
+      $(document).ajaxComplete(function () {
+        setTimeout(function () {
+          _NavbarActions2.default.updateAjaxAnimation('fadeOut');
+        }, 750);
+      });
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _NavbarStore2.default.unlisten(this.onChange);
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(state) {
+      this.setState(state);
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(event) {
+      event.preventDefault();
+
+      var searchQuery = this.state.searchQuery.trim();
+
+      if (searchQuery) {
+        _NavbarActions2.default.findCharacter({
+          searchQuery: searchQuery,
+          searchForm: this.refs.searchForm,
+          history: this.props.history
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'nav',
+        { className: 'navbar navbar-default navbar-static-top' },
+        _react2.default.createElement(
+          'div',
+          { className: 'navbar-header' },
+          _react2.default.createElement(
+            'button',
+            { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar' },
+            _react2.default.createElement(
+              'span',
+              { className: 'sr-only' },
+              'Toggle navigation'
+            ),
+            _react2.default.createElement('span', { className: 'icon-bar' }),
+            _react2.default.createElement('span', { className: 'icon-bar' }),
+            _react2.default.createElement('span', { className: 'icon-bar' })
+          ),
+          _react2.default.createElement(
+            _reactRouter.Link,
+            { to: '/', className: 'navbar-brand' },
+            _react2.default.createElement(
+              'span',
+              { ref: 'triangles', className: 'triangles animated ' + this.state.ajaxAnimationClass },
+              _react2.default.createElement('div', { className: 'tri invert' }),
+              _react2.default.createElement('div', { className: 'tri invert' }),
+              _react2.default.createElement('div', { className: 'tri' }),
+              _react2.default.createElement('div', { className: 'tri invert' }),
+              _react2.default.createElement('div', { className: 'tri invert' }),
+              _react2.default.createElement('div', { className: 'tri' }),
+              _react2.default.createElement('div', { className: 'tri invert' }),
+              _react2.default.createElement('div', { className: 'tri' }),
+              _react2.default.createElement('div', { className: 'tri invert' })
+            ),
+            'CT',
+            _react2.default.createElement(
+              'span',
+              { className: 'badge badge-up badge-danger' },
+              this.state.onlineUsers
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'navbar', className: 'navbar-collapse collapse' },
+          _react2.default.createElement(
+            'form',
+            { ref: 'searchForm', className: 'navbar-form navbar-left animated', onSubmit: this.handleSubmit.bind(this) },
+            _react2.default.createElement(
+              'div',
+              { className: 'input-group' },
+              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalCharacters + ' characters', value: this.state.searchQuery, onChange: _NavbarActions2.default.updateSearchQuery }),
+              _react2.default.createElement(
+                'span',
+                { className: 'input-group-btn' },
+                _react2.default.createElement(
+                  'button',
+                  { className: 'btn btn-default', onClick: this.handleSubmit.bind(this) },
+                  _react2.default.createElement('span', { className: 'glyphicon glyphicon-search' })
+                )
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'nav navbar-nav' },
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouter.Link,
+                { to: '/' },
+                'Home'
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              { className: 'dropdown' },
+              _react2.default.createElement(
+                'a',
+                { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown' },
+                'Climbers ',
+                _react2.default.createElement('span', { className: 'caret' })
+              ),
+              _react2.default.createElement(
+                'ul',
+                { className: 'dropdown-menu' },
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: '/climbers' },
+                    'All'
+                  )
+                ),
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: '/climbers/trad' },
+                    'Trad'
+                  )
+                ),
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: '/climbers/sport' },
+                    'Sport'
+                  )
+                ),
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: '/climbers/boulder' },
+                    'Boulder'
+                  )
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouter.Link,
+                { to: '/post' },
+                'Post'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Navbar;
+}(_react2.default.Component);
+
+exports.default = Navbar;
+
+},{"../actions/NavbarActions":1,"../stores/NavbarStore":8,"react":"react","react-router":"react-router"}],6:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -123,7 +441,7 @@ _reactDom2.default.render(_react2.default.createElement(
   _routes2.default
 ), document.getElementById('app'));
 
-},{"./routes":4,"history/lib/createBrowserHistory":13,"react":"react","react-dom":"react-dom","react-router":"react-router"}],4:[function(require,module,exports){
+},{"./routes":7,"history/lib/createBrowserHistory":17,"react":"react","react-dom":"react-dom","react-router":"react-router"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -152,7 +470,84 @@ exports.default = _react2.default.createElement(
   _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default })
 );
 
-},{"./components/App":1,"./components/Home":2,"react":"react","react-router":"react-router"}],5:[function(require,module,exports){
+},{"./components/App":3,"./components/Home":4,"react":"react","react-router":"react-router"}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _alt = require('../alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+var _NavbarActions = require('../actions/NavbarActions');
+
+var _NavbarActions2 = _interopRequireDefault(_NavbarActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var NavbarStore = function () {
+  function NavbarStore() {
+    _classCallCheck(this, NavbarStore);
+
+    this.bindActions(_NavbarActions2.default);
+    this.totalCharacters = 0;
+    this.onlineUsers = 0;
+    this.searchQuery = '';
+    this.ajaxAnimationClass = '';
+  }
+
+  _createClass(NavbarStore, [{
+    key: 'onFindCharacterSuccess',
+    value: function onFindCharacterSuccess(payload) {
+      payload.history.pushState(null, '/characters/' + payload.characterId);
+    }
+  }, {
+    key: 'onFindCharacterFail',
+    value: function onFindCharacterFail(payload) {
+      payload.searchForm.classList.add('shake');
+      setTimeout(function () {
+        payload.searchForm.classList.remove('shake');
+      }, 1000);
+    }
+  }, {
+    key: 'onUpdateOnlineUsers',
+    value: function onUpdateOnlineUsers(data) {
+      this.onlineUsers = data.onlineUsers;
+    }
+  }, {
+    key: 'onUpdateAjaxAnimation',
+    value: function onUpdateAjaxAnimation(className) {
+      this.ajaxAnimationClass = className; //fadein or fadeout
+    }
+  }, {
+    key: 'onUpdateSearchQuery',
+    value: function onUpdateSearchQuery(event) {
+      this.searchQuery = event.target.value;
+    }
+  }, {
+    key: 'onGetCharacterCountSuccess',
+    value: function onGetCharacterCountSuccess(data) {
+      this.totalCharacters = data.count;
+    }
+  }, {
+    key: 'onGetCharacterCountFail',
+    value: function onGetCharacterCountFail(jqXhr) {
+      toastr.error(jqXhr.responseJSON.message);
+    }
+  }]);
+
+  return NavbarStore;
+}();
+
+exports.default = _alt2.default.createStore(NavbarStore);
+
+},{"../actions/NavbarActions":1,"../alt":2}],9:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -248,7 +643,7 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-},{"./lib/is_arguments.js":6,"./lib/keys.js":7}],6:[function(require,module,exports){
+},{"./lib/is_arguments.js":10,"./lib/keys.js":11}],10:[function(require,module,exports){
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -270,7 +665,7 @@ function unsupported(object){
     false;
 };
 
-},{}],7:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -281,7 +676,7 @@ function shim (obj) {
   return keys;
 }
 
-},{}],8:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  * Indicates that navigation was caused by a call to history.push.
  */
@@ -313,7 +708,7 @@ exports['default'] = {
   REPLACE: REPLACE,
   POP: POP
 };
-},{}],9:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -340,7 +735,7 @@ function loopAsync(turns, work, callback) {
 
   next();
 }
-},{}],10:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 (function (process){
 /*eslint-disable no-empty */
 'use strict';
@@ -412,7 +807,7 @@ function readState(key) {
 }
 }).call(this,require('_process'))
 
-},{"_process":22,"warning":23}],11:[function(require,module,exports){
+},{"_process":26,"warning":27}],15:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -493,13 +888,13 @@ function supportsGoWithoutReloadUsingHash() {
   var ua = navigator.userAgent;
   return ua.indexOf('Firefox') === -1;
 }
-},{}],12:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 exports.canUseDOM = canUseDOM;
-},{}],13:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -681,7 +1076,7 @@ exports['default'] = createBrowserHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./Actions":8,"./DOMStateStorage":10,"./DOMUtils":11,"./ExecutionEnvironment":12,"./createDOMHistory":14,"./parsePath":19,"_process":22,"invariant":21}],14:[function(require,module,exports){
+},{"./Actions":12,"./DOMStateStorage":14,"./DOMUtils":15,"./ExecutionEnvironment":16,"./createDOMHistory":18,"./parsePath":23,"_process":26,"invariant":25}],18:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -725,7 +1120,7 @@ exports['default'] = createDOMHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./DOMUtils":11,"./ExecutionEnvironment":12,"./createHistory":15,"_process":22,"invariant":21}],15:[function(require,module,exports){
+},{"./DOMUtils":15,"./ExecutionEnvironment":16,"./createHistory":19,"_process":26,"invariant":25}],19:[function(require,module,exports){
 //import warning from 'warning'
 'use strict';
 
@@ -1017,7 +1412,7 @@ function createHistory() {
 
 exports['default'] = createHistory;
 module.exports = exports['default'];
-},{"./Actions":8,"./AsyncUtils":9,"./createLocation":16,"./deprecate":17,"./parsePath":19,"./runTransitionHook":20,"deep-equal":5}],16:[function(require,module,exports){
+},{"./Actions":12,"./AsyncUtils":13,"./createLocation":20,"./deprecate":21,"./parsePath":23,"./runTransitionHook":24,"deep-equal":9}],20:[function(require,module,exports){
 //import warning from 'warning'
 'use strict';
 
@@ -1072,7 +1467,7 @@ function createLocation() {
 
 exports['default'] = createLocation;
 module.exports = exports['default'];
-},{"./Actions":8,"./parsePath":19}],17:[function(require,module,exports){
+},{"./Actions":12,"./parsePath":23}],21:[function(require,module,exports){
 //import warning from 'warning'
 
 "use strict";
@@ -1088,7 +1483,7 @@ function deprecate(fn) {
 
 exports["default"] = deprecate;
 module.exports = exports["default"];
-},{}],18:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1102,7 +1497,7 @@ function extractPath(string) {
 
 exports["default"] = extractPath;
 module.exports = exports["default"];
-},{}],19:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1150,7 +1545,7 @@ exports['default'] = parsePath;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./extractPath":18,"_process":22,"warning":23}],20:[function(require,module,exports){
+},{"./extractPath":22,"_process":26,"warning":27}],24:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1178,7 +1573,7 @@ exports['default'] = runTransitionHook;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"_process":22,"warning":23}],21:[function(require,module,exports){
+},{"_process":26,"warning":27}],25:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -1234,7 +1629,7 @@ module.exports = invariant;
 
 }).call(this,require('_process'))
 
-},{"_process":22}],22:[function(require,module,exports){
+},{"_process":26}],26:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -1416,7 +1811,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],23:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -1481,7 +1876,7 @@ module.exports = warning;
 
 }).call(this,require('_process'))
 
-},{"_process":22}]},{},[3])
+},{"_process":26}]},{},[6])
 
 
 //# sourceMappingURL=bundle.js.map
