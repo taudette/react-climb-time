@@ -16,7 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "^3.3.5",
+    "bootstrap": "^3.3.7",
     "magnific-popup": "^1.0.0",
     "toastr": "^2.1.1"
   }
