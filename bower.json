@@ -1,0 +1,23 @@
+{
+  "name": "react-climb-time",
+  "description": "app for finding rock climbing parners",
+  "main": "server.js",
+  "authors": [
+    "Tyler Audette <tyleraudette@yahoo.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/taudette/projects",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.5",
+    "magnific-popup": "^1.0.0",
+    "toastr": "^2.1.1"
+  }
+}
