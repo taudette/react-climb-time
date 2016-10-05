@@ -7,34 +7,34 @@ class NavbarActions {
       'updateOnlineUsers',
       'updateAjaxAnimation',
       'updateSearchQuery',
-      'getCharacterCountSuccess',
-      'getCharacterCountFail',
-      'findCharacterSuccess',
-      'findCharacterFail'
+      'getClimberCountSuccess',
+      'getClimberCountFail',
+      'findClimberSuccess',
+      'findClimberFail'
     );
   }
 
-  findCharacter(payload) {
+  findClimber(payload) {
     $.ajax({
-      url: '/api/characters/search',
-      data: { name: payload.searchQuery }
+      url: '/api/climber/search',
+      data: { name: payload.searchQuery },
     })
       .done((data) => {
         assign(payload, data);
-        this.actions.findCharacterSuccess(payload);
+        this.actions.findClimberSuccess(payload);
       })
       .fail(() => {
-        this.actions.findCharacterFail(payload);
+        this.actions.findClimberFail(payload);
       });
   }
 
-  getCharacterCount() {
-    $.ajax({ url: '/api/characters/count' })
+  getClimberCount() {
+    $.ajax({ url: '/api/climbers/count' })
       .done((data) => {
-        this.actions.getCharacterCountSuccess(data)
+        this.actions.getClimberCountSuccess(data);
       })
       .fail((jqXhr) => {
-        this.actions.getCharacterCountFail(jqXhr)
+        this.actions.getClimberCountFail(jqXhr);
       });
   }
 }

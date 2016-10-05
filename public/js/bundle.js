@@ -11,6 +11,52 @@ var _alt = require('../alt');
 
 var _alt2 = _interopRequireDefault(_alt);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var AddClimberActions = function () {
+  function AddClimberActions() {
+    _classCallCheck(this, AddClimberActions);
+
+    this.generateActions('addClimberSuccess', 'addClimberFail', 'updateName', 'updateGender', 'invalidName', 'invalidGender');
+  }
+
+  _createClass(AddClimberActions, [{
+    key: 'addClimber',
+    value: function addClimber(name, style) {
+      var _this = this;
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/climbers',
+        data: { name: name, style: style }
+      }).done(function (data) {
+        _this.actions.addClimberSuccess(data.message);
+      }).fail(function (jqXhr) {
+        _this.actions.addClimberFail(jqXhr.responseJSON.message);
+      });
+    }
+  }]);
+
+  return AddClimberActions;
+}();
+
+exports.default = _alt2.default.createActions(AddClimberActions);
+
+},{"../alt":3}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _alt = require('../alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
 var _underscore = require('underscore');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -21,33 +67,33 @@ var NavbarActions = function () {
   function NavbarActions() {
     _classCallCheck(this, NavbarActions);
 
-    this.generateActions('updateOnlineUsers', 'updateAjaxAnimation', 'updateSearchQuery', 'getCharacterCountSuccess', 'getCharacterCountFail', 'findCharacterSuccess', 'findCharacterFail');
+    this.generateActions('updateOnlineUsers', 'updateAjaxAnimation', 'updateSearchQuery', 'getClimberCountSuccess', 'getClimberCountFail', 'findClimberSuccess', 'findClimberFail');
   }
 
   _createClass(NavbarActions, [{
-    key: 'findCharacter',
-    value: function findCharacter(payload) {
+    key: 'findClimber',
+    value: function findClimber(payload) {
       var _this = this;
 
       $.ajax({
-        url: '/api/characters/search',
+        url: '/api/climber/search',
         data: { name: payload.searchQuery }
       }).done(function (data) {
         (0, _underscore.assign)(payload, data);
-        _this.actions.findCharacterSuccess(payload);
+        _this.actions.findClimberSuccess(payload);
       }).fail(function () {
-        _this.actions.findCharacterFail(payload);
+        _this.actions.findClimberFail(payload);
       });
     }
   }, {
-    key: 'getCharacterCount',
-    value: function getCharacterCount() {
+    key: 'getClimberCount',
+    value: function getClimberCount() {
       var _this2 = this;
 
-      $.ajax({ url: '/api/characters/count' }).done(function (data) {
-        _this2.actions.getCharacterCountSuccess(data);
+      $.ajax({ url: '/api/climbers/count' }).done(function (data) {
+        _this2.actions.getClimberCountSuccess(data);
       }).fail(function (jqXhr) {
-        _this2.actions.getCharacterCountFail(jqXhr);
+        _this2.actions.getClimberCountFail(jqXhr);
       });
     }
   }]);
@@ -57,7 +103,7 @@ var NavbarActions = function () {
 
 exports.default = _alt2.default.createActions(NavbarActions);
 
-},{"../alt":2,"underscore":"underscore"}],2:[function(require,module,exports){
+},{"../alt":3,"underscore":"underscore"}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -72,7 +118,183 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = new _alt2.default();
 
-},{"alt":"alt"}],3:[function(require,module,exports){
+},{"alt":"alt"}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _AddClimberStore = require('../stores/AddClimberStore');
+
+var _AddClimberStore2 = _interopRequireDefault(_AddClimberStore);
+
+var _AddClimberActions = require('../actions/AddClimberActions');
+
+var _AddClimberActions2 = _interopRequireDefault(_AddClimberActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AddClimber = function (_React$Component) {
+  _inherits(AddClimber, _React$Component);
+
+  function AddClimber(props) {
+    _classCallCheck(this, AddClimber);
+
+    var _this = _possibleConstructorReturn(this, (AddClimber.__proto__ || Object.getPrototypeOf(AddClimber)).call(this, props));
+
+    _this.state = _AddClimberStore2.default.getState();
+    _this.onChange = _this.onChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AddClimber, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      _AddClimberStore2.default.listen(this.onChange);
+    }
+  }, {
+    key: 'componentWillUnMount',
+    value: function componentWillUnMount() {
+      _AddClimberStore2.default.unlisten(this.onChange);
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(state) {
+      this.setState(state);
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(event) {
+      event.preventDefault();
+
+      var name = this.state.name.trim();
+
+      if (!name) {
+        _AddClimberActions2.default.invalidName();
+        this.refs.nameTextField.getDomNode().focus();
+      }
+
+      if (!crag) {
+        _AddClimberActions2.default.invalidCrag();
+        this.refs.nameTextField.getDomNode().focus();
+      }
+
+      if (name && style) {
+        _AddClimberActions2.default.addClimber(name, style);
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'row flipInX animated' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-sm-8' },
+            _react2.default.createElement(
+              'div',
+              { className: 'panel panel-default' },
+              _react2.default.createElement(
+                'div',
+                { className: 'panel-heading' },
+                'Add Climber'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'panel-body' },
+                _react2.default.createElement(
+                  'form',
+                  { onSubmit: this.handleSubmit.bind(this) },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'form-group ' + this.state.nameValidationState },
+                    _react2.default.createElement(
+                      'label',
+                      { className: 'control-label' },
+                      'Climber Name'
+                    ),
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'nameTextField', value: this.state.name,
+                      onChange: _AddClimberActions2.default.updateName, autoFocus: true }),
+                    _react2.default.createElement(
+                      'span',
+                      { className: 'help-block' },
+                      this.state.helpBlock
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'form-group ' + this.state.styleValidationState },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'radio radio-inline' },
+                      _react2.default.createElement('input', { type: 'radio', name: 'style', id: 'sport', value: 'Sport', checked: this.state.gender === 'Sport',
+                        onChange: _AddClimberActions2.default.updateStyle }),
+                      _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'sport' },
+                        'Sport'
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'radio radio-inline' },
+                      _react2.default.createElement('input', { type: 'radio', name: 'style', id: 'boulder', value: 'Boulder', checked: this.state.gender === 'Boulder',
+                        onChange: _AddClimberActions2.default.updateStyle }),
+                      _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'boulder' },
+                        'Boulder'
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'radio radio-inline' },
+                      _react2.default.createElement('input', { type: 'radio', name: 'style', id: 'trad', value: 'Trad', checked: this.state.gender === 'Trad',
+                        onChange: _AddClimberActions2.default.updateStyle }),
+                      _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'trad' },
+                        'Trad'
+                      )
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'button',
+                    { type: 'submit', className: 'btn btn-primary' },
+                    'Submit'
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return AddClimber;
+}(_react2.default.Component);
+
+exports.default = AddClimber;
+
+},{"../actions/AddClimberActions":1,"../stores/AddClimberStore":10,"react":"react"}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -123,7 +345,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./Navbar":5,"react":"react"}],4:[function(require,module,exports){
+},{"./Navbar":7,"react":"react"}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -169,7 +391,7 @@ var Home = function (_React$Component) {
 
 exports.default = Home;
 
-},{"react":"react"}],5:[function(require,module,exports){
+},{"react":"react"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -217,7 +439,7 @@ var Navbar = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       _NavbarStore2.default.listen(this.onChange);
-      _NavbarActions2.default.getCharacterCount();
+      _NavbarActions2.default.getClimberCount();
 
       var socket = io.connect();
 
@@ -408,7 +630,7 @@ var Navbar = function (_React$Component) {
 
 exports.default = Navbar;
 
-},{"../actions/NavbarActions":1,"../stores/NavbarStore":8,"react":"react","react-router":"react-router"}],6:[function(require,module,exports){
+},{"../actions/NavbarActions":2,"../stores/NavbarStore":11,"react":"react","react-router":"react-router"}],8:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -441,7 +663,7 @@ _reactDom2.default.render(_react2.default.createElement(
   _routes2.default
 ), document.getElementById('app'));
 
-},{"./routes":7,"history/lib/createBrowserHistory":17,"react":"react","react-dom":"react-dom","react-router":"react-router"}],7:[function(require,module,exports){
+},{"./routes":9,"history/lib/createBrowserHistory":20,"react":"react","react-dom":"react-dom","react-router":"react-router"}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -462,15 +684,96 @@ var _Home = require('./components/Home');
 
 var _Home2 = _interopRequireDefault(_Home);
 
+var _AddClimber = require('./components/AddClimber');
+
+var _AddClimber2 = _interopRequireDefault(_AddClimber);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = _react2.default.createElement(
   _reactRouter.Route,
   { component: _App2.default },
-  _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default })
+  _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default }),
+  _react2.default.createElement(_reactRouter.Route, { path: '/add', component: _AddClimber2.default })
 );
 
-},{"./components/App":3,"./components/Home":4,"react":"react","react-router":"react-router"}],8:[function(require,module,exports){
+},{"./components/AddClimber":4,"./components/App":5,"./components/Home":6,"react":"react","react-router":"react-router"}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _alt = require('../alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+var _AddClimberActions = require('../actions/AddClimberActions');
+
+var _AddClimberActions2 = _interopRequireDefault(_AddClimberActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var AddClimberStore = function () {
+  function AddClimberStore() {
+    _classCallCheck(this, AddClimberStore);
+
+    this.bindActions(_AddClimberActions2.default);
+    this.name = '';
+    this.style = '';
+    this.helpBlock = '';
+    this.nameValidationState = '';
+    this.styleValidationState = '';
+  }
+
+  _createClass(AddClimberStore, [{
+    key: 'onAddClimberSuccess',
+    value: function onAddClimberSuccess(successMessage) {
+      this.nameValidationState = 'has-success';
+      this.helpBlock = successMessage;
+    }
+  }, {
+    key: 'onAddClimberFail',
+    value: function onAddClimberFail(errorMessage) {
+      this.nameValidationState = 'has-error';
+      this.helpBlock = errorMessage;
+    }
+  }, {
+    key: 'onUpdateName',
+    value: function onUpdateName(event) {
+      this.name = event.target.value;
+      this.nameValidationState = '';
+      this.helpBlock = '';
+    }
+  }, {
+    key: 'onUpdateStyle',
+    value: function onUpdateStyle(event) {
+      this.style = event.target.value;
+      this.styleValidationState = '';
+    }
+  }, {
+    key: 'onInvalidName',
+    value: function onInvalidName() {
+      this.nameValidationState = 'has-error';
+      this.helpBlock = 'Please enter a climber name.';
+    }
+  }, {
+    key: 'onInvalidGender',
+    value: function onInvalidGender() {
+      this.genderValidationState = 'has-error';
+    }
+  }]);
+
+  return AddClimberStore;
+}();
+
+exports.default = _alt2.default.createStore(AddClimberStore);
+
+},{"../actions/AddClimberActions":1,"../alt":3}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -547,7 +850,7 @@ var NavbarStore = function () {
 
 exports.default = _alt2.default.createStore(NavbarStore);
 
-},{"../actions/NavbarActions":1,"../alt":2}],9:[function(require,module,exports){
+},{"../actions/NavbarActions":2,"../alt":3}],12:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -643,7 +946,7 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-},{"./lib/is_arguments.js":10,"./lib/keys.js":11}],10:[function(require,module,exports){
+},{"./lib/is_arguments.js":13,"./lib/keys.js":14}],13:[function(require,module,exports){
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -665,7 +968,7 @@ function unsupported(object){
     false;
 };
 
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -676,7 +979,7 @@ function shim (obj) {
   return keys;
 }
 
-},{}],12:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * Indicates that navigation was caused by a call to history.push.
  */
@@ -708,7 +1011,7 @@ exports['default'] = {
   REPLACE: REPLACE,
   POP: POP
 };
-},{}],13:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -735,7 +1038,7 @@ function loopAsync(turns, work, callback) {
 
   next();
 }
-},{}],14:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (process){
 /*eslint-disable no-empty */
 'use strict';
@@ -807,7 +1110,7 @@ function readState(key) {
 }
 }).call(this,require('_process'))
 
-},{"_process":26,"warning":27}],15:[function(require,module,exports){
+},{"_process":29,"warning":30}],18:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -888,13 +1191,13 @@ function supportsGoWithoutReloadUsingHash() {
   var ua = navigator.userAgent;
   return ua.indexOf('Firefox') === -1;
 }
-},{}],16:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 exports.canUseDOM = canUseDOM;
-},{}],17:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1076,7 +1379,7 @@ exports['default'] = createBrowserHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./Actions":12,"./DOMStateStorage":14,"./DOMUtils":15,"./ExecutionEnvironment":16,"./createDOMHistory":18,"./parsePath":23,"_process":26,"invariant":25}],18:[function(require,module,exports){
+},{"./Actions":15,"./DOMStateStorage":17,"./DOMUtils":18,"./ExecutionEnvironment":19,"./createDOMHistory":21,"./parsePath":26,"_process":29,"invariant":28}],21:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1120,7 +1423,7 @@ exports['default'] = createDOMHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./DOMUtils":15,"./ExecutionEnvironment":16,"./createHistory":19,"_process":26,"invariant":25}],19:[function(require,module,exports){
+},{"./DOMUtils":18,"./ExecutionEnvironment":19,"./createHistory":22,"_process":29,"invariant":28}],22:[function(require,module,exports){
 //import warning from 'warning'
 'use strict';
 
@@ -1412,7 +1715,7 @@ function createHistory() {
 
 exports['default'] = createHistory;
 module.exports = exports['default'];
-},{"./Actions":12,"./AsyncUtils":13,"./createLocation":20,"./deprecate":21,"./parsePath":23,"./runTransitionHook":24,"deep-equal":9}],20:[function(require,module,exports){
+},{"./Actions":15,"./AsyncUtils":16,"./createLocation":23,"./deprecate":24,"./parsePath":26,"./runTransitionHook":27,"deep-equal":12}],23:[function(require,module,exports){
 //import warning from 'warning'
 'use strict';
 
@@ -1467,7 +1770,7 @@ function createLocation() {
 
 exports['default'] = createLocation;
 module.exports = exports['default'];
-},{"./Actions":12,"./parsePath":23}],21:[function(require,module,exports){
+},{"./Actions":15,"./parsePath":26}],24:[function(require,module,exports){
 //import warning from 'warning'
 
 "use strict";
@@ -1483,7 +1786,7 @@ function deprecate(fn) {
 
 exports["default"] = deprecate;
 module.exports = exports["default"];
-},{}],22:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1497,7 +1800,7 @@ function extractPath(string) {
 
 exports["default"] = extractPath;
 module.exports = exports["default"];
-},{}],23:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1545,7 +1848,7 @@ exports['default'] = parsePath;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./extractPath":22,"_process":26,"warning":27}],24:[function(require,module,exports){
+},{"./extractPath":25,"_process":29,"warning":30}],27:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1573,7 +1876,7 @@ exports['default'] = runTransitionHook;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"_process":26,"warning":27}],25:[function(require,module,exports){
+},{"_process":29,"warning":30}],28:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -1629,7 +1932,7 @@ module.exports = invariant;
 
 }).call(this,require('_process'))
 
-},{"_process":26}],26:[function(require,module,exports){
+},{"_process":29}],29:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -1811,7 +2114,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],27:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -1876,7 +2179,7 @@ module.exports = warning;
 
 }).call(this,require('_process'))
 
-},{"_process":26}]},{},[6])
+},{"_process":29}]},{},[8])
 
 
 //# sourceMappingURL=bundle.js.map
