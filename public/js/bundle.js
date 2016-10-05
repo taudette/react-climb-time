@@ -694,7 +694,7 @@ exports.default = _react2.default.createElement(
   _reactRouter.Route,
   { component: _App2.default },
   _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/add', component: _AddClimber2.default })
+  _react2.default.createElement(_reactRouter.Route, { path: '/post', component: _AddClimber2.default })
 );
 
 },{"./components/AddClimber":4,"./components/App":5,"./components/Home":6,"react":"react","react-router":"react-router"}],10:[function(require,module,exports){
@@ -762,9 +762,9 @@ var AddClimberStore = function () {
       this.helpBlock = 'Please enter a climber name.';
     }
   }, {
-    key: 'onInvalidGender',
-    value: function onInvalidGender() {
-      this.genderValidationState = 'has-error';
+    key: 'onInvalidStyle',
+    value: function onInvalidStyle() {
+      this.styleValidationState = 'has-error';
     }
   }]);
 

@@ -1,7 +1,8 @@
 // Babel ES6/JSX Compiler
+/* eslint-disable vars-on-top, no-var, prefer-arrow-callback, func-names, prefer-template, space-before-function-paren */
 require('babel-register');
 
-var swig  = require('swig');
+var swig = require('swig');
 var React = require('react');
 var ReactDOM = require('react-dom/server');
 var Router = require('react-router');
@@ -14,9 +15,12 @@ var mongoose = require('mongoose');
 var Climber = require('./models/climber');
 var config = require('./config');
 var app = express();
+var async = require('async');
+var request = require('request');
+var xml2js = require('xml2js');
 
 mongoose.connect(config.database);
-mongoose.connection.on('error', function() {
+mongoose.connection.on('error', function () {
   console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?');
 });
 
@@ -26,19 +30,37 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+/**
+ * POST /api/climbers
+ * Adds new climber to the database.
+ */
+app.post('/api/climbers', function(req, res) {
+  var style = req.body.style;
+  var name = req.body.name;
+
+  var climber = new Climber({
+    name: name,
+    style: style,
+  });
+
+  climber.save(function() {
+    res.send({ message: name + 'has been added!' });
+  });
+});
+
 // will be executed on every request to the server except those handled by api endpoints
 app.use(function(req, res) {
   Router.match({ routes: routes.default, location: req.url }, function(err, redirectLocation, renderProps) {
     if (err) {
-      res.status(500).send(err.message)
+      res.status(500).send(err.message);
     } else if (redirectLocation) {
-      res.status(302).redirect(redirectLocation.pathname + redirectLocation.search)
+      res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
       var html = ReactDOM.renderToString(React.createElement(Router.RoutingContext, renderProps));
       var page = swig.renderFile('views/index.html', { html: html });
       res.status(200).send(page);
     } else {
-      res.status(404).send('Page Not Found')
+      res.status(404).send('Page Not Found');
     }
   });
 });
@@ -50,12 +72,12 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var onlineUsers = 0;
 
-io.sockets.on('connection', function(socket) {
+io.sockets.on('connection', function (socket) {
   onlineUsers++;
 
   io.sockets.emit('onlineUsers', { onlineUsers: onlineUsers });
 
-  socket.on('disconnect', function() {
+  socket.on('disconnect', function () {
     onlineUsers--;
     io.sockets.emit('onlineUsers', { onlineUsers: onlineUsers });
   });

@@ -37,8 +37,8 @@ class AddClimberStore {
     this.helpBlock = 'Please enter a climber name.';
   }
 
-  onInvalidGender() {
-    this.genderValidationState = 'has-error';
+  onInvalidStyle() {
+    this.styleValidationState = 'has-error';
   }
 }
 

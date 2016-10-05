@@ -15,5 +15,7 @@
     "jsx-quotes": 0,
     "eol-last": 0,
     "max-len": 0,
+    "no-console": 0,
+    "object-shorthand": 0,
   }
 }

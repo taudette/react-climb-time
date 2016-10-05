@@ -7,6 +7,6 @@ import AddClimber from './components/AddClimber';
 export default (
   <Route component={App}>
     <Route path='/' component={Home} />
-    <Route path='/add' component={AddClimber} />
+    <Route path='/post' component={AddClimber} />
   </Route>
 );
