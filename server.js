@@ -46,12 +46,29 @@ app.get('/api/climbers', function(req, res) {
  * Adds new climber to the database.
  */
 app.post('/api/climbers', function(req, res) {
-  var style = req.body.style;
-  var name = req.body.name;
-
   fs.readFile('climbers.json', function(err, data) {
     var climbers = JSON.parse(data);
     climbers.push(req.body);
+    fs.writeFile('climbers.json', JSON.stringify(climbers, null, 4), function(err) {
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.send(JSON.stringify(climbers));
+    });
+  });
+});
+
+/**
+ * DELETE /api/climbers
+ * Adds new climber to the database.
+ */
+app.delete('/api/climbers', function(req, res) {
+  var name = req.body.name;
+  fs.readFile('climbers.json', function(err, data) {
+    var climbers = JSON.parse(data);
+    var shortClimbers = climbers.map(function(name){
+      var obj = {}
+     // TODO: setting removing climber that matches name from array
+    })
     fs.writeFile('climbers.json', JSON.stringify(climbers, null, 4), function(err) {
       res.setHeader('Content-Type', 'application/json');
       res.setHeader('Cache-Control', 'no-cache');

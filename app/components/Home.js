@@ -25,6 +25,11 @@ class Home extends React.Component {
     this.setState(state);
   }
 
+  deleteClimber(climber){
+    console.log(climber)
+    HomeActions.deleteClimber(climber.name);
+  }
+
   render() {
     var climberNodes = this.state.climbers.map((climber, index) => {
       return (
@@ -37,10 +42,11 @@ class Home extends React.Component {
               <h4>
                 <Link to={'/climbers/' + climber.climberId}><strong>{climber.name}</strong></Link>
               </h4>
+              <button onClick={this.deleteClimber.bind(this, climber)}>Delete</button>   
             </div>
           </div>
         </div>
-      );
+      );   
     });
 
     return (

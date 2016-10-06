@@ -85,6 +85,23 @@ var HomeActions = function () {
         _this.actions.getClimbersFail(jqXhr.responseJSON.message);
       });
     }
+  }, {
+    key: 'deleteClimber',
+    value: function deleteClimber(name) {
+      var _this2 = this;
+
+      console.log(name);
+      $.ajax({
+        url: '/api/climbers',
+        type: 'DELETE',
+        dataType: 'json',
+        data: { name: name }
+      }).done(function (data) {
+        _this2.actions.deleteClimbersSuccess(data);
+      }).fail(function (jqXhr) {
+        _this2.actions.deleteClimbersFail(jqXhr.responseJSON.message);
+      });
+    }
   }]);
 
   return HomeActions;
@@ -456,8 +473,16 @@ var Home = function (_React$Component) {
       this.setState(state);
     }
   }, {
+    key: 'deleteClimber',
+    value: function deleteClimber(climber) {
+      console.log(climber);
+      _HomeActions2.default.deleteClimber(climber.name);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var climberNodes = this.state.climbers.map(function (climber, index) {
         return _react2.default.createElement(
           'div',
@@ -495,6 +520,11 @@ var Home = function (_React$Component) {
                     climber.name
                   )
                 )
+              ),
+              _react2.default.createElement(
+                'button',
+                { onClick: _this2.deleteClimber.bind(_this2, climber) },
+                'Delete'
               )
             )
           )
@@ -602,7 +632,7 @@ var Navbar = function (_React$Component) {
       var searchQuery = this.state.searchQuery.trim();
 
       if (searchQuery) {
-        _NavbarActions2.default.findCharacter({
+        _NavbarActions2.default.findClimber({
           searchQuery: searchQuery,
           searchForm: this.refs.searchForm,
           history: this.props.history
@@ -663,7 +693,7 @@ var Navbar = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'input-group' },
-              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalCharacters + ' characters', value: this.state.searchQuery, onChange: _NavbarActions2.default.updateSearchQuery }),
+              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalClimbers + ' climbers', value: this.state.searchQuery, onChange: _NavbarActions2.default.updateSearchQuery }),
               _react2.default.createElement(
                 'span',
                 { className: 'input-group-btn' },
@@ -938,6 +968,11 @@ var HomeStore = function () {
     key: 'onGetClimbersFail',
     value: function onGetClimbersFail(errorMessage) {
       toastr.error(errorMessage);
+    }
+  }, {
+    key: 'onDeleteClimberSuccess',
+    value: function onDeleteClimberSuccess(data) {
+      this.climbers = data;
     }
   }]);
 

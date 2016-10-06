@@ -21,6 +21,22 @@ class HomeActions {
         this.actions.getClimbersFail(jqXhr.responseJSON.message);
       });
   }
+
+  deleteClimber(name) {
+    console.log(name)
+    $.ajax({ 
+      url:'/api/climbers',
+      type: 'DELETE',
+      dataType: 'json',
+      data: { name: name }
+      })
+      .done(data => {
+        this.actions.deleteClimbersSuccess(data);
+      })
+      .fail(jqXhr => {
+        this.actions.deleteClimbersFail(jqXhr.responseJSON.message);
+      });
+  }
 }
 
 export default alt.createActions(HomeActions);

@@ -14,6 +14,10 @@ class HomeStore {
   onGetClimbersFail(errorMessage) {
     toastr.error(errorMessage);
   }
+
+  onDeleteClimberSuccess(data) {
+    this.climbers = data;
+  }
 }
 
 export default alt.createStore(HomeStore);
