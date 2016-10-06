@@ -19,10 +19,12 @@ class AddClimberActions {
       data: { name: name, style: style }
     })
       .done((data) => {
-        this.actions.addClimberSuccess(data.message);
+        var message = data[data.length-1].name + ' has been added';
+        this.actions.addClimberSuccess(message);
       })
       .fail((jqXhr) => {
-        this.actions.addClimberFail(jqXhr.responseJSON.message);
+        var message = data[data.length-1].name + ' has not been added';
+        this.actions.addClimberFail(message);
       });
   }
 }

@@ -32,9 +32,11 @@ var AddClimberActions = function () {
         url: '/api/climbers',
         data: { name: name, style: style }
       }).done(function (data) {
-        _this.actions.addClimberSuccess(data.message);
+        var message = data[data.length - 1].name + ' has been added';
+        _this.actions.addClimberSuccess(message);
       }).fail(function (jqXhr) {
-        _this.actions.addClimberFail(jqXhr.responseJSON.message);
+        var message = data[data.length - 1].name + ' has not been added';
+        _this.actions.addClimberFail(message);
       });
     }
   }]);

@@ -49,13 +49,14 @@ app.post('/api/climbers', function(req, res) {
   var style = req.body.style;
   var name = req.body.name;
 
-  var climber = new Climber({
-    name: name,
-    style: style,
-  });
-
-  climber.save(function() {
-    res.send({ message: name + ' has been added!' });
+  fs.readFile('climbers.json', function(err, data) {
+    var climbers = JSON.parse(data);
+    climbers.push(req.body);
+    fs.writeFile('climbers.json', JSON.stringify(climbers, null, 4), function(err) {
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.send(JSON.stringify(climbers));
+    });
   });
 });
 
