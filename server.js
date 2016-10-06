@@ -18,8 +18,9 @@ var app = express();
 var async = require('async');
 var request = require('request');
 var xml2js = require('xml2js');
+var fs = require('fs');
 
-mongoose.connect(config.database);
+mongoose.connect('mongodb://localhost/react-climb-time');
 mongoose.connection.on('error', function () {
   console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?');
 });
@@ -29,6 +30,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+/**
+ * GET /api/climbers
+ * gets climbers to the database.
+ */
+app.get('/api/climbers', function(req, res) {
+  fs.readFile('climbers.json', function(err, data) {
+    res.send(data);
+  });
+});
 
 /**
  * POST /api/climbers
@@ -44,9 +55,39 @@ app.post('/api/climbers', function(req, res) {
   });
 
   climber.save(function() {
-    res.send({ message: name + 'has been added!' });
+    res.send({ message: name + ' has been added!' });
   });
 });
+
+/**
+ * GET /api/climbers/count
+ * Returns the total number of climbers.
+ */
+app.get('/api/climbers/count', function(req, res, next) {
+  Climber.count({}, function(err, count) {
+    if (err) return next(err);
+    res.send({ count: count });
+  });
+});
+
+/**
+ * GET /api/climbers/search
+ * Looks up a character by name. (case-insensitive)
+ */
+app.get('/api/climbers/search', function(req, res, next) {
+  var climberName = new RegExp(req.query.name, 'i');
+
+  Climber.findOne({ name: climberName }, function(err, climber) {
+    if (err) return next(err);
+
+    if (!climber) {
+      return res.status(404).send({ message: 'Climber not found.' });
+    }
+
+    res.send(climber);
+  });
+});
+
 
 // will be executed on every request to the server except those handled by api endpoints
 app.use(function(req, res) {

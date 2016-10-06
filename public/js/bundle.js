@@ -19,7 +19,7 @@ var AddClimberActions = function () {
   function AddClimberActions() {
     _classCallCheck(this, AddClimberActions);
 
-    this.generateActions('addClimberSuccess', 'addClimberFail', 'updateName', 'updateGender', 'invalidName', 'invalidGender');
+    this.generateActions('addClimberSuccess', 'addClimberFail', 'updateName', 'updateStyle', 'invalidName', 'invalidStyle');
   }
 
   _createClass(AddClimberActions, [{
@@ -44,7 +44,53 @@ var AddClimberActions = function () {
 
 exports.default = _alt2.default.createActions(AddClimberActions);
 
-},{"../alt":3}],2:[function(require,module,exports){
+},{"../alt":4}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _alt = require('../alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HomeActions = function () {
+  function HomeActions() {
+    _classCallCheck(this, HomeActions);
+
+    this.generateActions('getClimbersSuccess', 'getClimbersFail');
+  }
+
+  _createClass(HomeActions, [{
+    key: 'getClimbers',
+    value: function getClimbers() {
+      var _this = this;
+
+      $.ajax({
+        url: '/api/climbers',
+        type: 'GET',
+        dataType: 'json'
+      }).done(function (data) {
+        _this.actions.getClimbersSuccess(data);
+      }).fail(function (jqXhr) {
+        _this.actions.getClimbersFail(jqXhr.responseJSON.message);
+      });
+    }
+  }]);
+
+  return HomeActions;
+}();
+
+exports.default = _alt2.default.createActions(HomeActions);
+
+},{"../alt":4}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -103,7 +149,7 @@ var NavbarActions = function () {
 
 exports.default = _alt2.default.createActions(NavbarActions);
 
-},{"../alt":3,"underscore":"underscore"}],3:[function(require,module,exports){
+},{"../alt":4,"underscore":"underscore"}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -118,7 +164,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = new _alt2.default();
 
-},{"alt":"alt"}],4:[function(require,module,exports){
+},{"alt":"alt"}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -181,14 +227,10 @@ var AddClimber = function (_React$Component) {
       event.preventDefault();
 
       var name = this.state.name.trim();
+      var style = this.state.style;
 
       if (!name) {
         _AddClimberActions2.default.invalidName();
-        this.refs.nameTextField.getDomNode().focus();
-      }
-
-      if (!crag) {
-        _AddClimberActions2.default.invalidCrag();
         this.refs.nameTextField.getDomNode().focus();
       }
 
@@ -231,7 +273,8 @@ var AddClimber = function (_React$Component) {
                       'Climber Name'
                     ),
                     _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'nameTextField', value: this.state.name,
-                      onChange: _AddClimberActions2.default.updateName, autoFocus: true }),
+                      onChange: _AddClimberActions2.default.updateName, autoFocus: true
+                    }),
                     _react2.default.createElement(
                       'span',
                       { className: 'help-block' },
@@ -244,8 +287,9 @@ var AddClimber = function (_React$Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'radio radio-inline' },
-                      _react2.default.createElement('input', { type: 'radio', name: 'style', id: 'sport', value: 'Sport', checked: this.state.gender === 'Sport',
-                        onChange: _AddClimberActions2.default.updateStyle }),
+                      _react2.default.createElement('input', { type: 'radio', name: 'style', id: 'sport', value: 'Sport', checked: this.state.style === 'Sport',
+                        onChange: _AddClimberActions2.default.updateStyle
+                      }),
                       _react2.default.createElement(
                         'label',
                         { htmlFor: 'sport' },
@@ -255,8 +299,9 @@ var AddClimber = function (_React$Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'radio radio-inline' },
-                      _react2.default.createElement('input', { type: 'radio', name: 'style', id: 'boulder', value: 'Boulder', checked: this.state.gender === 'Boulder',
-                        onChange: _AddClimberActions2.default.updateStyle }),
+                      _react2.default.createElement('input', { type: 'radio', name: 'style', id: 'boulder', value: 'Boulder', checked: this.state.style === 'Boulder',
+                        onChange: _AddClimberActions2.default.updateStyle
+                      }),
                       _react2.default.createElement(
                         'label',
                         { htmlFor: 'boulder' },
@@ -266,8 +311,9 @@ var AddClimber = function (_React$Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'radio radio-inline' },
-                      _react2.default.createElement('input', { type: 'radio', name: 'style', id: 'trad', value: 'Trad', checked: this.state.gender === 'Trad',
-                        onChange: _AddClimberActions2.default.updateStyle }),
+                      _react2.default.createElement('input', { type: 'radio', name: 'style', id: 'trad', value: 'Trad', checked: this.state.style === 'Trad',
+                        onChange: _AddClimberActions2.default.updateStyle
+                      }),
                       _react2.default.createElement(
                         'label',
                         { htmlFor: 'trad' },
@@ -294,7 +340,7 @@ var AddClimber = function (_React$Component) {
 
 exports.default = AddClimber;
 
-},{"../actions/AddClimberActions":1,"../stores/AddClimberStore":10,"react":"react"}],5:[function(require,module,exports){
+},{"../actions/AddClimberActions":1,"../stores/AddClimberStore":11,"react":"react"}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -345,7 +391,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./Navbar":7,"react":"react"}],6:[function(require,module,exports){
+},{"./Navbar":8,"react":"react"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -358,6 +404,18 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
+var _HomeStore = require('../stores/HomeStore');
+
+var _HomeStore2 = _interopRequireDefault(_HomeStore);
+
+var _HomeActions = require('../actions/HomeActions');
+
+var _HomeActions2 = _interopRequireDefault(_HomeActions);
+
+var _underscore = require('underscore');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -369,19 +427,86 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Home = function (_React$Component) {
   _inherits(Home, _React$Component);
 
-  function Home() {
+  function Home(props) {
     _classCallCheck(this, Home);
 
-    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+    _this.state = _HomeStore2.default.getState();
+    _this.onChange = _this.onChange.bind(_this);
+    return _this;
   }
 
   _createClass(Home, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      _HomeStore2.default.listen(this.onChange);
+      _HomeActions2.default.getClimbers();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _HomeStore2.default.unlisten(this.onChange);
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(state) {
+      this.setState(state);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var climberNodes = this.state.climbers.map(function (climber, index) {
+        return _react2.default.createElement(
+          'div',
+          { key: climber.climberId, className: index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5' },
+          _react2.default.createElement(
+            'div',
+            { className: 'thumbnail fadeInUp animated' },
+            _react2.default.createElement(
+              'div',
+              { className: 'caption text-center' },
+              _react2.default.createElement(
+                'ul',
+                { className: 'list-inline' },
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    'strong',
+                    null,
+                    'Style:'
+                  ),
+                  ' ',
+                  climber.style
+                )
+              ),
+              _react2.default.createElement(
+                'h4',
+                null,
+                _react2.default.createElement(
+                  _reactRouter.Link,
+                  { to: '/climbers/' + climber.climberId },
+                  _react2.default.createElement(
+                    'strong',
+                    null,
+                    climber.name
+                  )
+                )
+              )
+            )
+          )
+        );
+      });
+
       return _react2.default.createElement(
         'div',
-        { className: 'alert alert-info' },
-        'Hello from Home Component'
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          climberNodes
+        )
       );
     }
   }]);
@@ -391,7 +516,7 @@ var Home = function (_React$Component) {
 
 exports.default = Home;
 
-},{"react":"react"}],7:[function(require,module,exports){
+},{"../actions/HomeActions":2,"../stores/HomeStore":12,"react":"react","react-router":"react-router","underscore":"underscore"}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -630,7 +755,7 @@ var Navbar = function (_React$Component) {
 
 exports.default = Navbar;
 
-},{"../actions/NavbarActions":2,"../stores/NavbarStore":11,"react":"react","react-router":"react-router"}],8:[function(require,module,exports){
+},{"../actions/NavbarActions":3,"../stores/NavbarStore":13,"react":"react","react-router":"react-router"}],9:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -663,7 +788,7 @@ _reactDom2.default.render(_react2.default.createElement(
   _routes2.default
 ), document.getElementById('app'));
 
-},{"./routes":9,"history/lib/createBrowserHistory":20,"react":"react","react-dom":"react-dom","react-router":"react-router"}],9:[function(require,module,exports){
+},{"./routes":10,"history/lib/createBrowserHistory":22,"react":"react","react-dom":"react-dom","react-router":"react-router"}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -697,7 +822,7 @@ exports.default = _react2.default.createElement(
   _react2.default.createElement(_reactRouter.Route, { path: '/post', component: _AddClimber2.default })
 );
 
-},{"./components/AddClimber":4,"./components/App":5,"./components/Home":6,"react":"react","react-router":"react-router"}],10:[function(require,module,exports){
+},{"./components/AddClimber":5,"./components/App":6,"./components/Home":7,"react":"react","react-router":"react-router"}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -773,7 +898,53 @@ var AddClimberStore = function () {
 
 exports.default = _alt2.default.createStore(AddClimberStore);
 
-},{"../actions/AddClimberActions":1,"../alt":3}],11:[function(require,module,exports){
+},{"../actions/AddClimberActions":1,"../alt":4}],12:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _alt = require('../alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+var _HomeActions = require('../actions/HomeActions');
+
+var _HomeActions2 = _interopRequireDefault(_HomeActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HomeStore = function () {
+  function HomeStore() {
+    _classCallCheck(this, HomeStore);
+
+    this.bindActions(_HomeActions2.default);
+    this.climbers = [];
+  }
+
+  _createClass(HomeStore, [{
+    key: 'onGetClimbersSuccess',
+    value: function onGetClimbersSuccess(data) {
+      this.climbers = data;
+    }
+  }, {
+    key: 'onGetClimbersFail',
+    value: function onGetClimbersFail(errorMessage) {
+      toastr.error(errorMessage);
+    }
+  }]);
+
+  return HomeStore;
+}();
+
+exports.default = _alt2.default.createStore(HomeStore);
+
+},{"../actions/HomeActions":2,"../alt":4}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -850,7 +1021,7 @@ var NavbarStore = function () {
 
 exports.default = _alt2.default.createStore(NavbarStore);
 
-},{"../actions/NavbarActions":2,"../alt":3}],12:[function(require,module,exports){
+},{"../actions/NavbarActions":3,"../alt":4}],14:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -946,7 +1117,7 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-},{"./lib/is_arguments.js":13,"./lib/keys.js":14}],13:[function(require,module,exports){
+},{"./lib/is_arguments.js":15,"./lib/keys.js":16}],15:[function(require,module,exports){
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -968,7 +1139,7 @@ function unsupported(object){
     false;
 };
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -979,7 +1150,7 @@ function shim (obj) {
   return keys;
 }
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * Indicates that navigation was caused by a call to history.push.
  */
@@ -1011,7 +1182,7 @@ exports['default'] = {
   REPLACE: REPLACE,
   POP: POP
 };
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1038,7 +1209,7 @@ function loopAsync(turns, work, callback) {
 
   next();
 }
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function (process){
 /*eslint-disable no-empty */
 'use strict';
@@ -1110,7 +1281,7 @@ function readState(key) {
 }
 }).call(this,require('_process'))
 
-},{"_process":29,"warning":30}],18:[function(require,module,exports){
+},{"_process":31,"warning":32}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1191,13 +1362,13 @@ function supportsGoWithoutReloadUsingHash() {
   var ua = navigator.userAgent;
   return ua.indexOf('Firefox') === -1;
 }
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 exports.canUseDOM = canUseDOM;
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1379,7 +1550,7 @@ exports['default'] = createBrowserHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./Actions":15,"./DOMStateStorage":17,"./DOMUtils":18,"./ExecutionEnvironment":19,"./createDOMHistory":21,"./parsePath":26,"_process":29,"invariant":28}],21:[function(require,module,exports){
+},{"./Actions":17,"./DOMStateStorage":19,"./DOMUtils":20,"./ExecutionEnvironment":21,"./createDOMHistory":23,"./parsePath":28,"_process":31,"invariant":30}],23:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1423,7 +1594,7 @@ exports['default'] = createDOMHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./DOMUtils":18,"./ExecutionEnvironment":19,"./createHistory":22,"_process":29,"invariant":28}],22:[function(require,module,exports){
+},{"./DOMUtils":20,"./ExecutionEnvironment":21,"./createHistory":24,"_process":31,"invariant":30}],24:[function(require,module,exports){
 //import warning from 'warning'
 'use strict';
 
@@ -1715,7 +1886,7 @@ function createHistory() {
 
 exports['default'] = createHistory;
 module.exports = exports['default'];
-},{"./Actions":15,"./AsyncUtils":16,"./createLocation":23,"./deprecate":24,"./parsePath":26,"./runTransitionHook":27,"deep-equal":12}],23:[function(require,module,exports){
+},{"./Actions":17,"./AsyncUtils":18,"./createLocation":25,"./deprecate":26,"./parsePath":28,"./runTransitionHook":29,"deep-equal":14}],25:[function(require,module,exports){
 //import warning from 'warning'
 'use strict';
 
@@ -1770,7 +1941,7 @@ function createLocation() {
 
 exports['default'] = createLocation;
 module.exports = exports['default'];
-},{"./Actions":15,"./parsePath":26}],24:[function(require,module,exports){
+},{"./Actions":17,"./parsePath":28}],26:[function(require,module,exports){
 //import warning from 'warning'
 
 "use strict";
@@ -1786,7 +1957,7 @@ function deprecate(fn) {
 
 exports["default"] = deprecate;
 module.exports = exports["default"];
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1800,7 +1971,7 @@ function extractPath(string) {
 
 exports["default"] = extractPath;
 module.exports = exports["default"];
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1848,7 +2019,7 @@ exports['default'] = parsePath;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./extractPath":25,"_process":29,"warning":30}],27:[function(require,module,exports){
+},{"./extractPath":27,"_process":31,"warning":32}],29:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1876,7 +2047,7 @@ exports['default'] = runTransitionHook;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"_process":29,"warning":30}],28:[function(require,module,exports){
+},{"_process":31,"warning":32}],30:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -1932,7 +2103,7 @@ module.exports = invariant;
 
 }).call(this,require('_process'))
 
-},{"_process":29}],29:[function(require,module,exports){
+},{"_process":31}],31:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2114,7 +2285,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -2179,7 +2350,7 @@ module.exports = warning;
 
 }).call(this,require('_process'))
 
-},{"_process":29}]},{},[8])
+},{"_process":31}]},{},[9])
 
 
 //# sourceMappingURL=bundle.js.map

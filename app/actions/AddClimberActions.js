@@ -6,9 +6,9 @@ class AddClimberActions {
       'addClimberSuccess',
       'addClimberFail',
       'updateName',
-      'updateGender',
+      'updateStyle',
       'invalidName',
-      'invalidGender'
+      'invalidStyle'
     );
   }
 
