@@ -26,14 +26,13 @@ class Home extends React.Component {
   }
 
   deleteClimber(climber){
-    console.log(climber)
     HomeActions.deleteClimber(climber.name);
   }
 
   render() {
     var climberNodes = this.state.climbers.map((climber, index) => {
       return (
-        <div key={climber.climberId} className={index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5'}>
+        <div key={climber.name} className={index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5'}>
           <div className='thumbnail fadeInUp animated'>
             <div className='caption text-center'>
               <ul className='list-inline'>

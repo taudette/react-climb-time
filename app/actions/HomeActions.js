@@ -4,7 +4,9 @@ class HomeActions {
   constructor() {
     this.generateActions(
       'getClimbersSuccess',
-      'getClimbersFail'
+      'getClimbersFail',
+      'deleteClimberSuccess',
+      'deleteClimberFail'
     );
   }
 
@@ -31,10 +33,11 @@ class HomeActions {
       data: { name: name }
       })
       .done(data => {
-        this.actions.deleteClimbersSuccess(data);
+        console.log('done')
+        this.actions.deleteClimberSuccess(data);
       })
       .fail(jqXhr => {
-        this.actions.deleteClimbersFail(jqXhr.responseJSON.message);
+        this.actions.deleteClimberFail('fail');
       });
   }
 }

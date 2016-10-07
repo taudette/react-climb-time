@@ -59,16 +59,16 @@ app.post('/api/climbers', function(req, res) {
 
 /**
  * DELETE /api/climbers
- * Adds new climber to the database.
+ * Deletes climber from the database.
  */
 app.delete('/api/climbers', function(req, res) {
-  var name = req.body.name;
   fs.readFile('climbers.json', function(err, data) {
     var climbers = JSON.parse(data);
-    var shortClimbers = climbers.map(function(name){
-      var obj = {}
-     // TODO: setting removing climber that matches name from array
-    })
+    for (var i = 0; i < climbers.length; i++){
+      if (climbers[i].name == req.body.name){
+        climbers.splice(i, 1)
+      }
+    }
     fs.writeFile('climbers.json', JSON.stringify(climbers, null, 4), function(err) {
       res.setHeader('Content-Type', 'application/json');
       res.setHeader('Cache-Control', 'no-cache');

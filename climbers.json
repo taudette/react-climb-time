@@ -1,13 +1,18 @@
 [
     {
-        "climberId": "1",
-        "name": "climber 1",
-        "style": "Sport",
-        "contact": 200,
-        "area": "Boulder"
+        "name": "TESTI2NG",
+        "style": "Boulder"
     },
     {
-        "name": "posting",
+        "name": "TES4TING",
+        "style": "Boulder"
+    },
+    {
+        "name": "TES5TING",
+        "style": "Boulder"
+    },
+    {
+        "name": "TES2TING",
         "style": "Boulder"
     }
 ]

@@ -67,7 +67,7 @@ var HomeActions = function () {
   function HomeActions() {
     _classCallCheck(this, HomeActions);
 
-    this.generateActions('getClimbersSuccess', 'getClimbersFail');
+    this.generateActions('getClimbersSuccess', 'getClimbersFail', 'deleteClimberSuccess', 'deleteClimberFail');
   }
 
   _createClass(HomeActions, [{
@@ -97,9 +97,10 @@ var HomeActions = function () {
         dataType: 'json',
         data: { name: name }
       }).done(function (data) {
-        _this2.actions.deleteClimbersSuccess(data);
+        console.log('done');
+        _this2.actions.deleteClimberSuccess(data);
       }).fail(function (jqXhr) {
-        _this2.actions.deleteClimbersFail(jqXhr.responseJSON.message);
+        _this2.actions.deleteClimberFail('fail');
       });
     }
   }]);
@@ -475,7 +476,6 @@ var Home = function (_React$Component) {
   }, {
     key: 'deleteClimber',
     value: function deleteClimber(climber) {
-      console.log(climber);
       _HomeActions2.default.deleteClimber(climber.name);
     }
   }, {
@@ -486,7 +486,7 @@ var Home = function (_React$Component) {
       var climberNodes = this.state.climbers.map(function (climber, index) {
         return _react2.default.createElement(
           'div',
-          { key: climber.climberId, className: index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5' },
+          { key: climber.name, className: index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5' },
           _react2.default.createElement(
             'div',
             { className: 'thumbnail fadeInUp animated' },
@@ -973,6 +973,12 @@ var HomeStore = function () {
     key: 'onDeleteClimberSuccess',
     value: function onDeleteClimberSuccess(data) {
       this.climbers = data;
+      console.log(data);
+    }
+  }, {
+    key: 'onDeleteClimberFail',
+    value: function onDeleteClimberFail(errorMessage) {
+      toastr.error(errorMessage);
     }
   }]);
 
