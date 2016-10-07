@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/taudette/react-climb-time"
+    "url": "git+https://github.com/taudette/react-climb-time.git"
   },
-    "main": "server.js",
+  "main": "server.js",
   "scripts": {
     "lint": "eslint src tools && jscs src tools --verbose",
     "start": "node server.js",
@@ -67,5 +67,10 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/taudette/react-climb-time/issues"
+  },
+  "homepage": "https://github.com/taudette/react-climb-time#readme",
+  "author": ""
 }

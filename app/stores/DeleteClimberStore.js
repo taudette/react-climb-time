@@ -1,26 +1,22 @@
 import alt from '../alt';
-import AddClimberActions from '../actions/AddClimberActions';
+import DeleteClimberActions from '../actions/DeleteClimberActions';
 
-class AddClimberStore {
+class DeleteClimberStore {
   constructor() {
-    this.bindActions(AddClimberActions);
+    this.bindActions(DeleteClimberActions);
     this.name = '';
-    this.crag = '';
-    this.contact= '';
     this.style = '';
     this.helpBlock = '';
     this.nameValidationState = '';
-    this.cragValidationState = '';
-    this.contactValidationState = '';
     this.styleValidationState = '';
   }
 
-  onAddClimberSuccess(successMessage) {
+  onDeleteClimberSuccess(successMessage) {
     this.nameValidationState = 'has-success';
     this.helpBlock = successMessage;
   }
 
-  onAddClimberFail(errorMessage) {
+  onDeleteClimberFail(errorMessage) {
     this.nameValidationState = 'has-error';
     this.helpBlock = errorMessage;
   }
@@ -29,16 +25,6 @@ class AddClimberStore {
     this.name = event.target.value;
     this.nameValidationState = '';
     this.helpBlock = '';
-  }
-
-  onUpdateCrag(event) {
-    this.crag = event.target.value;
-    this.cragValidationState = '';
-  }
-
-  onUpdateContact(event) {
-    this.contact = event.target.value;
-    this.contactValidationState = '';
   }
 
   onUpdateStyle(event) {
@@ -56,4 +42,4 @@ class AddClimberStore {
   }
 }
 
-export default alt.createStore(AddClimberStore);
+export default alt.createStore(DeleteClimberStore);

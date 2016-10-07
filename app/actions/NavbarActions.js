@@ -16,7 +16,7 @@ class NavbarActions {
 
   findClimber(payload) {
     $.ajax({
-      url: '/api/climber/search',
+      url: '/api/climbers/search',
       data: { name: payload.searchQuery },
     })
       .done((data) => {

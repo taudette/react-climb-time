@@ -1,3 +1,5 @@
+/* eslint-disable vars-on-top, no-var, prefer-arrow-callback, func-names, prefer-template, space-before-function-paren */
+
 var express = require('express');
 var app = express();
 var fs = require('fs');
@@ -20,7 +22,7 @@ app.post('/api/climbers', function(req, res) {
   fs.readFile('climbers.json', function(err, data) {
     var climbers = JSON.parse(data);
     climbers.push(req.body);
-    fs.writeFile('climbers.json', JSON.stringify(climbers, null, 4), function(err) {
+    fs.writeFile('climbers.json', JSON.stringify(climbers, null, 4), function() {
       res.setHeader('Content-Type', 'application/json');
       res.setHeader('Cache-Control', 'no-cache');
       res.send(JSON.stringify(climbers));
@@ -36,11 +38,11 @@ app.delete('/api/climbers', function(req, res) {
   fs.readFile('climbers.json', function(err, data) {
     var climbers = JSON.parse(data);
     for (var i = 0; i < climbers.length; i++){
-      if (climbers[i].name == req.body.name){
-        climbers.splice(i, 1)
+      if (climbers[i].name == req.body.name) {
+        climbers.splice(i, 1);
       }
     }
-    fs.writeFile('climbers.json', JSON.stringify(climbers, null, 4), function(err) {
+    fs.writeFile('climbers.json', JSON.stringify(climbers, null, 4), function() {
       res.setHeader('Content-Type', 'application/json');
       res.setHeader('Cache-Control', 'no-cache');
       res.send(JSON.stringify(climbers));
@@ -52,9 +54,10 @@ app.delete('/api/climbers', function(req, res) {
  * GET /api/climbers/count
  * Returns the total number of climbers.
  */
-app.get('/api/climbers/count', function(req, res, next) {
-  Climber.count({}, function(err, count) {
-    if (err) return next(err);
+app.get('/api/climbers/count', function(req, res) {
+  fs.readFile('climbers.json', function(err, data) {
+    var climbers = JSON.parse(data);
+    var count = climbers.length;
     res.send({ count: count });
   });
 });

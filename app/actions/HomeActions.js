@@ -25,7 +25,6 @@ class HomeActions {
   }
 
   deleteClimber(name) {
-    console.log(name)
     $.ajax({ 
       url:'/api/climbers',
       type: 'DELETE',

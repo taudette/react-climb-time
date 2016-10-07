@@ -19,23 +19,23 @@ var AddClimberActions = function () {
   function AddClimberActions() {
     _classCallCheck(this, AddClimberActions);
 
-    this.generateActions('addClimberSuccess', 'addClimberFail', 'updateName', 'updateStyle', 'invalidName', 'invalidStyle');
+    this.generateActions('addClimberSuccess', 'addClimberFail', 'updateName', 'updateCrag', 'updateContact', 'updateStyle', 'invalidName', 'invalidStyle');
   }
 
   _createClass(AddClimberActions, [{
     key: 'addClimber',
-    value: function addClimber(name, style) {
+    value: function addClimber(name, crag, contact, style) {
       var _this = this;
 
       $.ajax({
         type: 'POST',
         url: '/api/climbers',
-        data: { name: name, style: style }
+        data: { name: name, crag: crag, contact: contact, style: style }
       }).done(function (data) {
         var message = data[data.length - 1].name + ' has been added';
         _this.actions.addClimberSuccess(message);
-      }).fail(function (jqXhr) {
-        var message = data[data.length - 1].name + ' has not been added';
+      }).fail(function () {
+        var message = 'Climber has not been added';
         _this.actions.addClimberFail(message);
       });
     }
@@ -90,7 +90,6 @@ var HomeActions = function () {
     value: function deleteClimber(name) {
       var _this2 = this;
 
-      console.log(name);
       $.ajax({
         url: '/api/climbers',
         type: 'DELETE',
@@ -142,7 +141,7 @@ var NavbarActions = function () {
       var _this = this;
 
       $.ajax({
-        url: '/api/climber/search',
+        url: '/api/climbers/search',
         data: { name: payload.searchQuery }
       }).done(function (data) {
         (0, _underscore.assign)(payload, data);
@@ -232,14 +231,14 @@ var AddClimber = function (_React$Component) {
       _AddClimberStore2.default.listen(this.onChange);
     }
   }, {
-    key: 'componentWillUnMount',
-    value: function componentWillUnMount() {
-      _AddClimberStore2.default.unlisten(this.onChange);
-    }
-  }, {
     key: 'onChange',
     value: function onChange(state) {
       this.setState(state);
+    }
+  }, {
+    key: 'componentWillUnMount',
+    value: function componentWillUnMount() {
+      _AddClimberStore2.default.unlisten(this.onChange);
     }
   }, {
     key: 'handleSubmit',
@@ -247,15 +246,19 @@ var AddClimber = function (_React$Component) {
       event.preventDefault();
 
       var name = this.state.name.trim();
+      var crag = this.state.crag;
+      var contact = this.state.contact;
       var style = this.state.style;
+      console.log(this.state);
+      console.log(name, crag, contact, style);
 
       if (!name) {
         _AddClimberActions2.default.invalidName();
         this.refs.nameTextField.getDomNode().focus();
       }
 
-      if (name && style) {
-        _AddClimberActions2.default.addClimber(name, style);
+      if (name && crag && contact && style) {
+        _AddClimberActions2.default.addClimber(name, crag, contact, style);
       }
     }
   }, {
@@ -294,6 +297,40 @@ var AddClimber = function (_React$Component) {
                     ),
                     _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'nameTextField', value: this.state.name,
                       onChange: _AddClimberActions2.default.updateName, autoFocus: true
+                    }),
+                    _react2.default.createElement(
+                      'span',
+                      { className: 'help-block' },
+                      this.state.helpBlock
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'form-group ' + this.state.cragValidationState },
+                    _react2.default.createElement(
+                      'label',
+                      { className: 'control-label' },
+                      'Crag'
+                    ),
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'nameTextField', value: this.state.crag,
+                      onChange: _AddClimberActions2.default.updateCrag, autoFocus: true
+                    }),
+                    _react2.default.createElement(
+                      'span',
+                      { className: 'help-block' },
+                      this.state.helpBlock
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'form-group ' + this.state.contactValidationState },
+                    _react2.default.createElement(
+                      'label',
+                      { className: 'control-label' },
+                      'Contact'
+                    ),
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'nameTextField', value: this.state.contact,
+                      onChange: _AddClimberActions2.default.updateContact, autoFocus: true
                     }),
                     _react2.default.createElement(
                       'span',
@@ -486,13 +523,56 @@ var Home = function (_React$Component) {
       var climberNodes = this.state.climbers.map(function (climber, index) {
         return _react2.default.createElement(
           'div',
-          { key: climber.climberId, className: index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5' },
+          { key: Math.random(), className: index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5' },
           _react2.default.createElement(
             'div',
             { className: 'thumbnail fadeInUp animated' },
             _react2.default.createElement(
               'div',
               { className: 'caption text-center' },
+              _react2.default.createElement(
+                'h4',
+                null,
+                _react2.default.createElement(
+                  _reactRouter.Link,
+                  { to: '/climbers/' + climber.climberId },
+                  _react2.default.createElement(
+                    'strong',
+                    null,
+                    climber.name
+                  )
+                )
+              ),
+              _react2.default.createElement(
+                'ul',
+                { className: 'list-inline' },
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    'strong',
+                    null,
+                    'Crag:'
+                  ),
+                  ' ',
+                  climber.crag
+                )
+              ),
+              _react2.default.createElement(
+                'ul',
+                { className: 'list-inline' },
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    'strong',
+                    null,
+                    'Contact:'
+                  ),
+                  ' ',
+                  climber.contact
+                )
+              ),
               _react2.default.createElement(
                 'ul',
                 { className: 'list-inline' },
@@ -506,19 +586,6 @@ var Home = function (_React$Component) {
                   ),
                   ' ',
                   climber.style
-                )
-              ),
-              _react2.default.createElement(
-                'h4',
-                null,
-                _react2.default.createElement(
-                  _reactRouter.Link,
-                  { to: '/climbers/' + climber.climberId },
-                  _react2.default.createElement(
-                    'strong',
-                    null,
-                    climber.name
-                  )
                 )
               ),
               _react2.default.createElement(
@@ -881,9 +948,13 @@ var AddClimberStore = function () {
 
     this.bindActions(_AddClimberActions2.default);
     this.name = '';
+    this.crag = '';
+    this.contact = '';
     this.style = '';
     this.helpBlock = '';
     this.nameValidationState = '';
+    this.cragValidationState = '';
+    this.contactValidationState = '';
     this.styleValidationState = '';
   }
 
@@ -905,6 +976,18 @@ var AddClimberStore = function () {
       this.name = event.target.value;
       this.nameValidationState = '';
       this.helpBlock = '';
+    }
+  }, {
+    key: 'onUpdateCrag',
+    value: function onUpdateCrag(event) {
+      this.crag = event.target.value;
+      this.cragValidationState = '';
+    }
+  }, {
+    key: 'onUpdateContact',
+    value: function onUpdateContact(event) {
+      this.contact = event.target.value;
+      this.contactValidationState = '';
     }
   }, {
     key: 'onUpdateStyle',
@@ -973,7 +1056,6 @@ var HomeStore = function () {
     key: 'onDeleteClimberSuccess',
     value: function onDeleteClimberSuccess(data) {
       this.climbers = data;
-      console.log(data);
     }
   }, {
     key: 'onDeleteClimberFail',
@@ -1013,20 +1095,20 @@ var NavbarStore = function () {
     _classCallCheck(this, NavbarStore);
 
     this.bindActions(_NavbarActions2.default);
-    this.totalCharacters = 0;
+    this.totalClimbers = 0;
     this.onlineUsers = 0;
     this.searchQuery = '';
     this.ajaxAnimationClass = '';
   }
 
   _createClass(NavbarStore, [{
-    key: 'onFindCharacterSuccess',
-    value: function onFindCharacterSuccess(payload) {
-      payload.history.pushState(null, '/characters/' + payload.characterId);
+    key: 'onFindClimberSuccess',
+    value: function onFindClimberSuccess(payload) {
+      payload.history.pushState(null, '/climbers/' + payload.climberId);
     }
   }, {
-    key: 'onFindCharacterFail',
-    value: function onFindCharacterFail(payload) {
+    key: 'onFindClimberFail',
+    value: function onFindClimberFail(payload) {
       payload.searchForm.classList.add('shake');
       setTimeout(function () {
         payload.searchForm.classList.remove('shake');
@@ -1048,13 +1130,13 @@ var NavbarStore = function () {
       this.searchQuery = event.target.value;
     }
   }, {
-    key: 'onGetCharacterCountSuccess',
-    value: function onGetCharacterCountSuccess(data) {
-      this.totalCharacters = data.count;
+    key: 'onGetClimberCountSuccess',
+    value: function onGetClimberCountSuccess(data) {
+      this.totalClimbers = data.count;
     }
   }, {
-    key: 'onGetCharacterCountFail',
-    value: function onGetCharacterCountFail(jqXhr) {
+    key: 'onGetClimberCountFail',
+    value: function onGetClimberCountFail(jqXhr) {
       toastr.error(jqXhr.responseJSON.message);
     }
   }]);

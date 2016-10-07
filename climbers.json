@@ -1,14 +1,12 @@
 [
     {
-        "name": "tyler",
-        "style": "Boulder"
-    },
-    {
-        "name": "new climber",
-        "style": "Boulder"
-    },
-    {
         "name": "add new",
+        "style": "Boulder"
+    },
+    {
+        "name": "sshit",
+        "crag": "dsfds",
+        "contact": "dg",
         "style": "Boulder"
     }
 ]

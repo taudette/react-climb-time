@@ -17,7 +17,6 @@ class HomeStore {
 
   onDeleteClimberSuccess(data) {
     this.climbers = data;
-    console.log(data)
   }
 
   onDeleteClimberFail(errorMessage) {

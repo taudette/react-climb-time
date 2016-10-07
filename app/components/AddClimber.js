@@ -13,27 +13,31 @@ class AddClimber extends React.Component {
     AddClimberStore.listen(this.onChange);
   }
 
-  componentWillUnMount() {
-    AddClimberStore.unlisten(this.onChange);
-  }
-
   onChange(state) {
     this.setState(state);
+  }
+
+  componentWillUnMount() {
+    AddClimberStore.unlisten(this.onChange);
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
     const name = this.state.name.trim();
+    const crag = this.state.crag;
+    const contact = this.state.contact;
     const style = this.state.style;
+    console.log(this.state)
+    console.log(name, crag, contact, style);
 
     if (!name) {
       AddClimberActions.invalidName();
       this.refs.nameTextField.getDomNode().focus();
     }
 
-    if (name && style) {
-      AddClimberActions.addClimber(name, style);
+    if (name && crag && contact && style) {
+      AddClimberActions.addClimber(name, crag, contact, style);
     }
   }
 
@@ -49,7 +53,21 @@ class AddClimber extends React.Component {
                   <div className={'form-group ' + this.state.nameValidationState}>
                     <label className='control-label'>Climber Name</label>
                     <input type='text' className='form-control' ref='nameTextField' value={this.state.name}
-                      onChange={AddClimberActions.updateName} autoFocus 
+                      onChange={AddClimberActions.updateName} autoFocus
+                    />
+                    <span className='help-block'>{this.state.helpBlock}</span>
+                  </div>
+                  <div className={'form-group ' + this.state.cragValidationState}>
+                    <label className='control-label'>Crag</label>
+                    <input type='text' className='form-control' ref='nameTextField' value={this.state.crag}
+                      onChange={AddClimberActions.updateCrag} autoFocus
+                    />
+                    <span className='help-block'>{this.state.helpBlock}</span>
+                  </div>
+                  <div className={'form-group ' + this.state.contactValidationState}>
+                    <label className='control-label'>Contact</label>
+                    <input type='text' className='form-control' ref='nameTextField' value={this.state.contact}
+                      onChange={AddClimberActions.updateContact} autoFocus
                     />
                     <span className='help-block'>{this.state.helpBlock}</span>
                   </div>
