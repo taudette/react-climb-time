@@ -20,7 +20,7 @@ class HomeActions {
         this.actions.getClimbersSuccess(data);
       })
       .fail(jqXhr => {
-        this.actions.getClimbersFail('faied');
+        this.actions.getClimbersFail('failed');
       });
   }
 

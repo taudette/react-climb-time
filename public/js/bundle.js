@@ -82,7 +82,7 @@ var HomeActions = function () {
       }).done(function (data) {
         _this.actions.getClimbersSuccess(data);
       }).fail(function (jqXhr) {
-        _this.actions.getClimbersFail('faied');
+        _this.actions.getClimbersFail('failed');
       });
     }
   }, {

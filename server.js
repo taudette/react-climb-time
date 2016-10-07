@@ -19,7 +19,7 @@ var async = require('async');
 var request = require('request');
 var xml2js = require('xml2js');
 var fs = require('fs');
-var climbers = require('./routes/climbers');
+var climbers = require('./controllers/climbers');
 
 mongoose.connect('mongodb://localhost/react-climb-time');
 mongoose.connection.on('error', function () {
