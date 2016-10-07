@@ -82,7 +82,7 @@ var HomeActions = function () {
       }).done(function (data) {
         _this.actions.getClimbersSuccess(data);
       }).fail(function (jqXhr) {
-        _this.actions.getClimbersFail(jqXhr.responseJSON.message);
+        _this.actions.getClimbersFail('faied');
       });
     }
   }, {
@@ -486,7 +486,7 @@ var Home = function (_React$Component) {
       var climberNodes = this.state.climbers.map(function (climber, index) {
         return _react2.default.createElement(
           'div',
-          { key: climber.name, className: index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5' },
+          { key: climber.climberId, className: index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5' },
           _react2.default.createElement(
             'div',
             { className: 'thumbnail fadeInUp animated' },
