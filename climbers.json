@@ -1,10 +1,30 @@
 [
     {
-        "name": "add new",
+        "name": "Tyler",
+        "crag": "Boulder Canyon",
+        "contact": "phone",
         "style": "Boulder"
     },
     {
-        "name": "sshit",
+        "name": "Max",
+        "crag": "Eldo",
+        "contact": "dg",
+        "style": "Boulder"
+    },
+    {
+        "name": "mal",
+        "crag": "dsfds",
+        "contact": "dg",
+        "style": "Boulder"
+    },
+    {
+        "name": "cas",
+        "crag": "dsfds",
+        "contact": "dg",
+        "style": "Boulder"
+    },
+    {
+        "name": "addie",
         "crag": "dsfds",
         "contact": "dg",
         "style": "Boulder"

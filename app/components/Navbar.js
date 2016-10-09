@@ -43,12 +43,9 @@ class Navbar extends React.Component {
     event.preventDefault();
 
     let searchQuery = this.state.searchQuery.trim();
-
     if (searchQuery) {
       NavbarActions.findClimber({
         searchQuery: searchQuery,
-        searchForm: this.refs.searchForm,
-        history: this.props.history
       });
     }
   }

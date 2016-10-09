@@ -1,5 +1,4 @@
 import alt from '../alt';
-import {assign} from 'underscore';
 
 class NavbarActions {
   constructor() {
@@ -14,17 +13,18 @@ class NavbarActions {
     );
   }
 
-  findClimber(payload) {
+  findClimber(searchQuery) {
     $.ajax({
+      type: 'GET',
       url: '/api/climbers/search',
-      data: { name: payload.searchQuery },
+      data: searchQuery,
     })
       .done((data) => {
-        assign(payload, data);
-        this.actions.findClimberSuccess(payload);
+        console.log(data);
+        this.actions.findClimberSuccess(data);
       })
       .fail(() => {
-        this.actions.findClimberFail(payload);
+        this.actions.findClimberFail('failed');
       });
   }
 

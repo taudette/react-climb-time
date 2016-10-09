@@ -37,8 +37,8 @@ app.post('/api/climbers', function(req, res) {
 app.delete('/api/climbers', function(req, res) {
   fs.readFile('climbers.json', function(err, data) {
     var climbers = JSON.parse(data);
-    for (var i = 0; i < climbers.length; i++){
-      if (climbers[i].name == req.body.name) {
+    for (var i = 0; i < climbers.length; i++) {
+      if (climbers[i].name === req.body.name) {
         climbers.splice(i, 1);
       }
     }
@@ -66,17 +66,20 @@ app.get('/api/climbers/count', function(req, res) {
  * GET /api/climbers/search
  * Looks up a climber by name. (case-insensitive)
  */
-app.get('/api/climbers/search', function(req, res, next) {
-  var climberName = new RegExp(req.query.name, 'i');
-
-  Climber.findOne({ name: climberName }, function(err, climber) {
-    if (err) return next(err);
-
-    if (!climber) {
-      return res.status(404).send({ message: 'Climber not found.' });
+app.get('/api/climbers/search', function(req, res) {
+  var query = req.query.searchQuery;
+  fs.readFile('climbers.json', function(err, data) {
+    var climbers = JSON.parse(data);
+    for (var i = 0; i < climbers.length; i++) {
+      console.log(climbers[i.name])
+      if (climbers[i].name === query) {
+        console.log(climbers[i])
+        res.send(JSON.stringify(climbers[i]));
+      }
+      else{
+        console.log('error')
+      }
     }
-
-    res.send(climber);
   });
 });
 

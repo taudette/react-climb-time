@@ -23,13 +23,10 @@ class AddClimber extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
     const name = this.state.name.trim();
     const crag = this.state.crag;
     const contact = this.state.contact;
     const style = this.state.style;
-    console.log(this.state)
-    console.log(name, crag, contact, style);
 
     if (!name) {
       AddClimberActions.invalidName();

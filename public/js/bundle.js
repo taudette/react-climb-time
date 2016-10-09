@@ -67,7 +67,7 @@ var HomeActions = function () {
   function HomeActions() {
     _classCallCheck(this, HomeActions);
 
-    this.generateActions('getClimbersSuccess', 'getClimbersFail', 'deleteClimberSuccess', 'deleteClimberFail');
+    this.generateActions('getClimbersSuccess', 'getClimbersFail', 'deleteClimberSuccess', 'deleteClimberFail', 'filterClimbers');
   }
 
   _createClass(HomeActions, [{
@@ -102,6 +102,11 @@ var HomeActions = function () {
         _this2.actions.deleteClimberFail('fail');
       });
     }
+  }, {
+    key: 'filterClimbers',
+    value: function filterClimbers(event) {
+      this.actions.filterClimbers(event.target.value);
+    }
   }]);
 
   return HomeActions;
@@ -122,8 +127,6 @@ var _alt = require('../alt');
 
 var _alt2 = _interopRequireDefault(_alt);
 
-var _underscore = require('underscore');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -137,17 +140,18 @@ var NavbarActions = function () {
 
   _createClass(NavbarActions, [{
     key: 'findClimber',
-    value: function findClimber(payload) {
+    value: function findClimber(searchQuery) {
       var _this = this;
 
       $.ajax({
+        type: 'GET',
         url: '/api/climbers/search',
-        data: { name: payload.searchQuery }
+        data: searchQuery
       }).done(function (data) {
-        (0, _underscore.assign)(payload, data);
-        _this.actions.findClimberSuccess(payload);
+        console.log(data);
+        _this.actions.findClimberSuccess(data);
       }).fail(function () {
-        _this.actions.findClimberFail(payload);
+        _this.actions.findClimberFail('failed');
       });
     }
   }, {
@@ -168,7 +172,7 @@ var NavbarActions = function () {
 
 exports.default = _alt2.default.createActions(NavbarActions);
 
-},{"../alt":4,"underscore":"underscore"}],4:[function(require,module,exports){
+},{"../alt":4}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -244,13 +248,10 @@ var AddClimber = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
       event.preventDefault();
-
       var name = this.state.name.trim();
       var crag = this.state.crag;
       var contact = this.state.contact;
       var style = this.state.style;
-      console.log(this.state);
-      console.log(name, crag, contact, style);
 
       if (!name) {
         _AddClimberActions2.default.invalidName();
@@ -516,14 +517,19 @@ var Home = function (_React$Component) {
       _HomeActions2.default.deleteClimber(climber.name);
     }
   }, {
+    key: 'filterClimbers',
+    value: function filterClimbers(event) {
+      _HomeActions2.default.filterClimbers(event);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
-      var climberNodes = this.state.climbers.map(function (climber, index) {
+      var climberNodes = this.state.climbers.map(function (climber) {
         return _react2.default.createElement(
-          'div',
-          { key: Math.random(), className: index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5' },
+          'li',
+          null,
           _react2.default.createElement(
             'div',
             { className: 'thumbnail fadeInUp animated' },
@@ -534,13 +540,9 @@ var Home = function (_React$Component) {
                 'h4',
                 null,
                 _react2.default.createElement(
-                  _reactRouter.Link,
-                  { to: '/climbers/' + climber.climberId },
-                  _react2.default.createElement(
-                    'strong',
-                    null,
-                    climber.name
-                  )
+                  'strong',
+                  null,
+                  climber.name
                 )
               ),
               _react2.default.createElement(
@@ -604,7 +606,16 @@ var Home = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'row' },
-          climberNodes
+          _react2.default.createElement(
+            'div',
+            { className: 'filter-list' },
+            _react2.default.createElement('input', { type: 'text', placeholder: 'Search', onChange: this.filterClimbers })
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'col-md-3' },
+            climberNodes
+          )
         )
       );
     }
@@ -697,12 +708,9 @@ var Navbar = function (_React$Component) {
       event.preventDefault();
 
       var searchQuery = this.state.searchQuery.trim();
-
       if (searchQuery) {
         _NavbarActions2.default.findClimber({
-          searchQuery: searchQuery,
-          searchForm: this.refs.searchForm,
-          history: this.props.history
+          searchQuery: searchQuery
         });
       }
     }
@@ -1046,6 +1054,15 @@ var HomeStore = function () {
     key: 'onGetClimbersSuccess',
     value: function onGetClimbersSuccess(data) {
       this.climbers = data;
+    }
+  }, {
+    key: 'onFilterClimbers',
+    value: function onFilterClimbers(event) {
+      var climbers = this.climbers;
+      climbers = climbers.filter(function (climber) {
+        return climber.name.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+      });
+      this.climbers = climbers;
     }
   }, {
     key: 'onGetClimbersFail',

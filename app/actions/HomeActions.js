@@ -6,16 +6,17 @@ class HomeActions {
       'getClimbersSuccess',
       'getClimbersFail',
       'deleteClimberSuccess',
-      'deleteClimberFail'
+      'deleteClimberFail',
+      'filterClimbers',
     );
   }
 
   getClimbers() {
     $.ajax({ 
-      url:'/api/climbers',
+      url: '/api/climbers',
       type: 'GET',
       dataType: 'json',
-      })
+    })
       .done(data => {
         this.actions.getClimbersSuccess(data);
       })
@@ -26,11 +27,11 @@ class HomeActions {
 
   deleteClimber(name) {
     $.ajax({ 
-      url:'/api/climbers',
+      url: '/api/climbers',
       type: 'DELETE',
       dataType: 'json',
-      data: { name: name }
-      })
+      data: { name: name },
+    })
       .done(data => {
         console.log('done')
         this.actions.deleteClimberSuccess(data);
@@ -38,6 +39,10 @@ class HomeActions {
       .fail(jqXhr => {
         this.actions.deleteClimberFail('fail');
       });
+  }
+
+  filterClimbers(event) {
+    this.actions.filterClimbers(event.target.value);
   }
 }
 

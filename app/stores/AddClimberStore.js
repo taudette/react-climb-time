@@ -6,7 +6,7 @@ class AddClimberStore {
     this.bindActions(AddClimberActions);
     this.name = '';
     this.crag = '';
-    this.contact= '';
+    this.contact = '';
     this.style = '';
     this.helpBlock = '';
     this.nameValidationState = '';

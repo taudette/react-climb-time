@@ -11,6 +11,15 @@ class HomeStore {
     this.climbers = data;
   }
 
+  onFilterClimbers(event) {
+    let climbers = this.climbers;
+    climbers = climbers.filter(function(climber) {
+      return climber.name.toLowerCase().search(
+        event.target.value.toLowerCase()) !== -1;
+    });
+    this.climbers = climbers;
+  }
+
   onGetClimbersFail(errorMessage) {
     toastr.error(errorMessage);
   }

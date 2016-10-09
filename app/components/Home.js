@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import HomeStore from '../stores/HomeStore';
 import HomeActions from '../actions/HomeActions';
-import {first, without, findWhere} from 'underscore';
+import { first, without, findWhere } from 'underscore';
 
 class Home extends React.Component {
 
@@ -29,15 +29,17 @@ class Home extends React.Component {
     HomeActions.deleteClimber(climber.name);
   }
 
+  filterClimbers(event) {
+    HomeActions.filterClimbers(event);
+  }
+
   render() {
-    var climberNodes = this.state.climbers.map((climber, index) => {
+    var climberNodes = this.state.climbers.map((climber) => {
       return (
-        <div key={Math.random()} className={index === 0 ? 'col-xs-6 col-sm-6 col-md-5 col-md-offset-1' : 'col-xs-6 col-sm-6 col-md-5'}>
+        <li>
           <div className='thumbnail fadeInUp animated'>
             <div className='caption text-center'>
-            <h4>
-                <Link to={'/climbers/' + climber.climberId}><strong>{climber.name}</strong></Link>
-              </h4>
+            <h4><strong>{climber.name}</strong></h4>
               <ul className='list-inline'>
                 <li><strong>Crag:</strong> {climber.crag}</li>
               </ul>
@@ -50,14 +52,19 @@ class Home extends React.Component {
               <button onClick={this.deleteClimber.bind(this, climber)}>Delete</button>
             </div>
           </div>
-        </div>
+        </li>
       );
     });
 
     return (
       <div className='container'>
         <div className='row'>
-          {climberNodes}
+          <div className="filter-list">
+            <input type="text" placeholder="Search" onChange={this.filterClimbers} />
+          </div>
+          <ul className='col-md-3'>
+           {climberNodes}
+          </ul>
         </div>
       </div>
     );
