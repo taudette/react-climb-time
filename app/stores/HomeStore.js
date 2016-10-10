@@ -5,19 +5,21 @@ class HomeStore {
   constructor() {
     this.bindActions(HomeActions);
     this.climbers = [];
+    this.allClimbers = [];
   }
 
   onGetClimbersSuccess(data) {
     this.climbers = data;
+    this.allClimbers = data;
   }
 
   onFilterClimbers(event) {
-    let climbers = this.climbers;
-    climbers = climbers.filter(function(climber) {
-      return climber.name.toLowerCase().search(
+    const climbers = this.allClimbers;
+    const filteredClimbers = climbers.filter(function(climber) {
+      return climber.key.toLowerCase().search(
         event.target.value.toLowerCase()) !== -1;
     });
-    this.climbers = climbers;
+    this.climbers = filteredClimbers;
   }
 
   onGetClimbersFail(errorMessage) {

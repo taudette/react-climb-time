@@ -1048,21 +1048,23 @@ var HomeStore = function () {
 
     this.bindActions(_HomeActions2.default);
     this.climbers = [];
+    this.allClimbers = [];
   }
 
   _createClass(HomeStore, [{
     key: 'onGetClimbersSuccess',
     value: function onGetClimbersSuccess(data) {
       this.climbers = data;
+      this.allClimbers = data;
     }
   }, {
     key: 'onFilterClimbers',
     value: function onFilterClimbers(event) {
-      var climbers = this.climbers;
-      climbers = climbers.filter(function (climber) {
-        return climber.name.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+      var climbers = this.allClimbers;
+      var filteredClimbers = climbers.filter(function (climber) {
+        return climber.key.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
       });
-      this.climbers = climbers;
+      this.climbers = filteredClimbers;
     }
   }, {
     key: 'onGetClimbersFail',
