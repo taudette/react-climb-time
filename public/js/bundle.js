@@ -115,74 +115,9 @@ var ClimbersActions = function () {
 exports.default = _alt2.default.createActions(ClimbersActions);
 
 },{"../alt":5}],3:[function(require,module,exports){
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _alt = require('../alt');
-
-var _alt2 = _interopRequireDefault(_alt);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var HomeActions = function () {
-  function HomeActions() {
-    _classCallCheck(this, HomeActions);
-
-    this.generateActions('getClimbersSuccess', 'getClimbersFail', 'deleteClimberSuccess', 'deleteClimberFail', 'filterClimbers');
-  }
-
-  _createClass(HomeActions, [{
-    key: 'getClimbers',
-    value: function getClimbers() {
-      var _this = this;
-
-      $.ajax({
-        url: '/api/climbers',
-        type: 'GET',
-        dataType: 'json'
-      }).done(function (data) {
-        _this.actions.getClimbersSuccess(data);
-      }).fail(function (jqXhr) {
-        _this.actions.getClimbersFail('failed');
-      });
-    }
-  }, {
-    key: 'deleteClimber',
-    value: function deleteClimber(name) {
-      var _this2 = this;
-
-      $.ajax({
-        url: '/api/climbers',
-        type: 'DELETE',
-        dataType: 'json',
-        data: { name: name }
-      }).done(function (data) {
-        console.log('done');
-        _this2.actions.deleteClimberSuccess(data);
-      }).fail(function (jqXhr) {
-        _this2.actions.deleteClimberFail('fail');
-      });
-    }
-  }, {
-    key: 'filterClimbers',
-    value: function filterClimbers(event) {
-      this.actions.filterClimbers(event.target.value);
-    }
-  }]);
-
-  return HomeActions;
-}();
-
-exports.default = _alt2.default.createActions(HomeActions);
-
-},{"../alt":5}],4:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -719,6 +654,8 @@ var _HomeActions2 = _interopRequireDefault(_HomeActions);
 
 var _underscore = require('underscore');
 
+var _reactFacebookLoginComponent = require('react-facebook-login-component');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -730,35 +667,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Home = function (_React$Component) {
   _inherits(Home, _React$Component);
 
-  function Home() {
+  function Home(props, context) {
     _classCallCheck(this, Home);
 
-    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props, context));
   }
 
   _createClass(Home, [{
+    key: 'responseFacebook',
+    value: function responseFacebook(response) {
+      console.log(response);
+      // anything else you want to do(save to localStorage)... 
+    }
+  }, {
     key: 'render',
-
-
-    // constructor(props) {
-    //   super(props);
-    //   this.state = HomeStore.getState();
-    //   this.onChange = this.onChange.bind(this);
-    // }
-
-    // componentDidMount() {
-    //   HomeStore.listen(this.onChange);
-    //   HomeActions.getHome();
-    // }
-
-    // componentWillUnmount() {
-    //   HomeStore.unlisten(this.onChange);
-    // }
-
-    // onChange(state) {
-    //   this.setState(state);
-    // }
-
     value: function render() {
       return _react2.default.createElement(
         'div',
@@ -767,6 +689,18 @@ var Home = function (_React$Component) {
           'h1',
           null,
           ' Welcome to Climb Time '
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(_reactFacebookLoginComponent.FacebookLogin, { socialId: '1247317688671713',
+            language: 'en_US',
+            scope: 'public_profile,email',
+            responseHandler: this.responseFacebook,
+            xfbml: true,
+            version: 'v2.5',
+            'class': 'facebook-login',
+            buttonText: 'Login With Facebook' })
         )
       );
     }
@@ -777,7 +711,7 @@ var Home = function (_React$Component) {
 
 exports.default = Home;
 
-},{"../actions/HomeActions":3,"../stores/HomeStore":15,"react":"react","react-router":"react-router","underscore":"underscore"}],10:[function(require,module,exports){
+},{"../actions/HomeActions":3,"../stores/HomeStore":15,"react":"react","react-facebook-login-component":35,"react-router":"react-router","underscore":"underscore"}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1245,74 +1179,9 @@ var ClimbersStore = function () {
 exports.default = _alt2.default.createStore(ClimbersStore);
 
 },{"../actions/ClimbersActions":2,"../alt":5}],15:[function(require,module,exports){
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _alt = require('../alt');
-
-var _alt2 = _interopRequireDefault(_alt);
-
-var _HomeActions = require('../actions/HomeActions');
-
-var _HomeActions2 = _interopRequireDefault(_HomeActions);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var HomeStore = function () {
-  function HomeStore() {
-    _classCallCheck(this, HomeStore);
-
-    this.bindActions(_HomeActions2.default);
-    this.climbers = [];
-    this.allClimbers = [];
-  }
-
-  _createClass(HomeStore, [{
-    key: 'onGetClimbersSuccess',
-    value: function onGetClimbersSuccess(data) {
-      this.climbers = data;
-      this.allClimbers = data;
-    }
-  }, {
-    key: 'onFilterClimbers',
-    value: function onFilterClimbers(event) {
-      var climbers = this.allClimbers;
-      var filteredClimbers = climbers.filter(function (climber) {
-        console.log(climber);
-        return climber.name.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
-      });
-      this.climbers = filteredClimbers;
-    }
-  }, {
-    key: 'onGetClimbersFail',
-    value: function onGetClimbersFail(errorMessage) {
-      toastr.error(errorMessage);
-    }
-  }, {
-    key: 'onDeleteClimberSuccess',
-    value: function onDeleteClimberSuccess(data) {
-      this.climbers = data;
-    }
-  }, {
-    key: 'onDeleteClimberFail',
-    value: function onDeleteClimberFail(errorMessage) {
-      toastr.error(errorMessage);
-    }
-  }]);
-
-  return HomeStore;
-}();
-
-exports.default = _alt2.default.createStore(HomeStore);
-
-},{"../actions/HomeActions":3,"../alt":5}],16:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1649,7 +1518,7 @@ function readState(key) {
 }
 }).call(this,require('_process'))
 
-},{"_process":34,"warning":35}],23:[function(require,module,exports){
+},{"_process":34,"warning":36}],23:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2387,7 +2256,7 @@ exports['default'] = parsePath;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./extractPath":30,"_process":34,"warning":35}],32:[function(require,module,exports){
+},{"./extractPath":30,"_process":34,"warning":36}],32:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -2415,7 +2284,7 @@ exports['default'] = runTransitionHook;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"_process":34,"warning":35}],33:[function(require,module,exports){
+},{"_process":34,"warning":36}],33:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -2654,6 +2523,193 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],35:[function(require,module,exports){
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("react"));
+	else if(typeof define === 'function' && define.amd)
+		define(["react"], factory);
+	else if(typeof exports === 'object')
+		exports["react-facebook-login-component"] = factory(require("react"));
+	else
+		root["react-facebook-login-component"] = factory(root["React"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.FacebookLogin = undefined;
+
+	var _FacebookLogin = __webpack_require__(1);
+
+	var _FacebookLogin2 = _interopRequireDefault(_FacebookLogin);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.FacebookLogin = _FacebookLogin2.default;
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var FacebookLogin = function (_React$Component) {
+	  _inherits(FacebookLogin, _React$Component);
+
+	  function FacebookLogin(props) {
+	    _classCallCheck(this, FacebookLogin);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(FacebookLogin).call(this, props));
+	  }
+
+	  _createClass(FacebookLogin, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      (function (d, s, id) {
+	        var element = d.getElementsByTagName(s)[0];
+	        var fjs = element;
+	        var js = element;
+	        if (d.getElementById(id)) {
+	          return;
+	        }
+	        js = d.createElement(s);js.id = id;
+	        js.src = '//connect.facebook.net/en_US/sdk.js';
+	        fjs.parentNode.insertBefore(js, fjs);
+	      })(document, 'script', 'facebook-jssdk');
+
+	      window.fbAsyncInit = function () {
+	        FB.init({
+	          appId: _this2.props.socialId,
+	          xfbml: _this2.props.xfbml,
+	          cookie: _this2.props.cookie,
+	          version: _this2.props.version
+	        });
+	      };
+	    }
+	  }, {
+	    key: 'responseApi',
+	    value: function responseApi(authResponse) {
+	      var _this3 = this;
+
+	      FB.api('/me?fields=' + this.props.fields, function (me) {
+	        me.accessToken = authResponse.accessToken;
+	        _this3.props.responseHandler(me);
+	      });
+	    }
+	  }, {
+	    key: 'checkLoginState',
+	    value: function checkLoginState(response) {
+	      if (response.authResponse) {
+	        this.responseApi(response.authResponse);
+	      } else {
+	        if (this.props.responseHandler) {
+	          this.props.responseHandler({ status: response.status });
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'clickHandler',
+	    value: function clickHandler() {
+	      FB.login(this.checkLoginState.bind(this), { scope: this.props.scope });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'button',
+	          { className: this.props.class, onClick: this.clickHandler.bind(this) },
+	          this.props.buttonText
+	        )
+	      );
+	    }
+	  }]);
+
+	  return FacebookLogin;
+	}(_react2.default.Component);
+
+	exports.default = FacebookLogin;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ }
+/******/ ])
+});
+;
+},{"react":"react"}],36:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
