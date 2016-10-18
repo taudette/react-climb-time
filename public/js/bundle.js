@@ -1062,7 +1062,8 @@ var HomeStore = function () {
     value: function onFilterClimbers(event) {
       var climbers = this.allClimbers;
       var filteredClimbers = climbers.filter(function (climber) {
-        return climber.key.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+        console.log(climber);
+        return climber.name.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
       });
       this.climbers = filteredClimbers;
     }

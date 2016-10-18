@@ -16,7 +16,8 @@ class HomeStore {
   onFilterClimbers(event) {
     const climbers = this.allClimbers;
     const filteredClimbers = climbers.filter(function(climber) {
-      return climber.key.toLowerCase().search(
+      console.log(climber)
+      return climber.name.toLowerCase().search(
         event.target.value.toLowerCase()) !== -1;
     });
     this.climbers = filteredClimbers;
