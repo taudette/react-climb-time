@@ -20,5 +20,7 @@
     "react/jsx-no-bind": 0,
     "prefer-template": 0,
     "react/prop-types": 0,
+    "vars-on-top": 0,
+    "no-var": 0,
   }
 }

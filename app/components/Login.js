@@ -11,6 +11,10 @@ class Login extends React.Component {
         <div>
           <button onClick={auth.login.bind(this)}>Login</button>
         </div>
+        <h2>Logout</h2>
+        <div>
+          <button onClick={auth.logout.bind(this)}>Logout</button>
+        </div>
       </div>
     );
   }
@@ -18,7 +22,7 @@ class Login extends React.Component {
 
 Login.contextTypes = {
   router: T.object,
- };
+};
 
 Login.propTypes = {
   location: T.object,

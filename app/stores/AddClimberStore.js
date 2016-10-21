@@ -4,12 +4,10 @@ import AddClimberActions from '../actions/AddClimberActions';
 class AddClimberStore {
   constructor() {
     this.bindActions(AddClimberActions);
-    this.name = '';
     this.crag = '';
     this.contact = '';
     this.style = '';
     this.helpBlock = '';
-    this.nameValidationState = '';
     this.cragValidationState = '';
     this.contactValidationState = '';
     this.styleValidationState = '';
@@ -25,11 +23,6 @@ class AddClimberStore {
     this.helpBlock = errorMessage;
   }
 
-  onUpdateName(event) {
-    this.name = event.target.value;
-    this.nameValidationState = '';
-    this.helpBlock = '';
-  }
 
   onUpdateCrag(event) {
     this.crag = event.target.value;
@@ -44,11 +37,6 @@ class AddClimberStore {
   onUpdateStyle(event) {
     this.style = event.target.value;
     this.styleValidationState = '';
-  }
-
-  onInvalidName() {
-    this.nameValidationState = 'has-error';
-    this.helpBlock = 'Please enter a climber name.';
   }
 
   onInvalidStyle() {

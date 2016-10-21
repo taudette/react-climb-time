@@ -3,6 +3,7 @@ import AddClimberStore from '../stores/AddClimberStore';
 import AddClimberActions from '../actions/AddClimberActions';
 
 class AddClimber extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = AddClimberStore.getState();
@@ -11,10 +12,14 @@ class AddClimber extends React.Component {
 
   componentDidMount() {
     AddClimberStore.listen(this.onChange);
+    this.state.name = window.localStorage.profile.name;
+    const user = JSON.parse(window.localStorage.profile);
+    this.state.name = user.name;
   }
 
   onChange(state) {
     this.setState(state);
+    console.log(state)
   }
 
   componentWillUnMount() {
@@ -23,16 +28,11 @@ class AddClimber extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const name = this.state.name.trim();
+    console.log(this.state.name)
+    const name = this.state.name;
     const crag = this.state.crag;
     const contact = this.state.contact;
     const style = this.state.style;
-
-    if (!name) {
-      AddClimberActions.invalidName();
-      this.refs.nameTextField.getDomNode().focus();
-    }
-
     if (name && crag && contact && style) {
       AddClimberActions.addClimber(name, crag, contact, style);
     }
@@ -47,13 +47,6 @@ class AddClimber extends React.Component {
               <div className='panel-heading'>Add Climber</div>
               <div className='panel-body'>
                 <form onSubmit={this.handleSubmit.bind(this)}>
-                  <div className={'form-group ' + this.state.nameValidationState}>
-                    <label className='control-label'>Climber Name</label>
-                    <input type='text' className='form-control' ref='nameTextField' value={this.state.name}
-                      onChange={AddClimberActions.updateName} autoFocus
-                    />
-                    <span className='help-block'>{this.state.helpBlock}</span>
-                  </div>
                   <div className={'form-group ' + this.state.cragValidationState}>
                     <label className='control-label'>Crag</label>
                     <input type='text' className='form-control' ref='nameTextField' value={this.state.crag}

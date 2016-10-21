@@ -105,6 +105,7 @@ class Navbar extends React.Component {
               </ul>
             </li>
             <li><Link to='/post'>Post</Link></li>
+            <li><Link to='/login'>Login</Link></li>
           </ul>
         </div>
       </nav>

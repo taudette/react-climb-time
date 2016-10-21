@@ -236,11 +236,15 @@ var AddClimber = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       _AddClimberStore2.default.listen(this.onChange);
+      this.state.name = window.localStorage.profile.name;
+      var user = JSON.parse(window.localStorage.profile);
+      this.state.name = user.name;
     }
   }, {
     key: 'onChange',
     value: function onChange(state) {
       this.setState(state);
+      console.log(state);
     }
   }, {
     key: 'componentWillUnMount',
@@ -251,16 +255,11 @@ var AddClimber = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
       event.preventDefault();
-      var name = this.state.name.trim();
+      console.log(this.state.name);
+      var name = this.state.name;
       var crag = this.state.crag;
       var contact = this.state.contact;
       var style = this.state.style;
-
-      if (!name) {
-        _AddClimberActions2.default.invalidName();
-        this.refs.nameTextField.getDomNode().focus();
-      }
-
       if (name && crag && contact && style) {
         _AddClimberActions2.default.addClimber(name, crag, contact, style);
       }
@@ -291,23 +290,6 @@ var AddClimber = function (_React$Component) {
                 _react2.default.createElement(
                   'form',
                   { onSubmit: this.handleSubmit.bind(this) },
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'form-group ' + this.state.nameValidationState },
-                    _react2.default.createElement(
-                      'label',
-                      { className: 'control-label' },
-                      'Climber Name'
-                    ),
-                    _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'nameTextField', value: this.state.name,
-                      onChange: _AddClimberActions2.default.updateName, autoFocus: true
-                    }),
-                    _react2.default.createElement(
-                      'span',
-                      { className: 'help-block' },
-                      this.state.helpBlock
-                    )
-                  ),
                   _react2.default.createElement(
                     'div',
                     { className: 'form-group ' + this.state.cragValidationState },
@@ -774,6 +756,20 @@ var Login = function (_React$Component) {
             { onClick: auth.login.bind(this) },
             'Login'
           )
+        ),
+        _react2.default.createElement(
+          'h2',
+          null,
+          'Logout'
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'button',
+            { onClick: auth.logout.bind(this) },
+            'Logout'
+          )
         )
       );
     }
@@ -1017,6 +1013,15 @@ var Navbar = function (_React$Component) {
                 { to: '/post' },
                 'Post'
               )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouter.Link,
+                { to: '/login' },
+                'Login'
+              )
             )
           )
         )
@@ -1145,12 +1150,10 @@ var AddClimberStore = function () {
     _classCallCheck(this, AddClimberStore);
 
     this.bindActions(_AddClimberActions2.default);
-    this.name = '';
     this.crag = '';
     this.contact = '';
     this.style = '';
     this.helpBlock = '';
-    this.nameValidationState = '';
     this.cragValidationState = '';
     this.contactValidationState = '';
     this.styleValidationState = '';
@@ -1169,13 +1172,6 @@ var AddClimberStore = function () {
       this.helpBlock = errorMessage;
     }
   }, {
-    key: 'onUpdateName',
-    value: function onUpdateName(event) {
-      this.name = event.target.value;
-      this.nameValidationState = '';
-      this.helpBlock = '';
-    }
-  }, {
     key: 'onUpdateCrag',
     value: function onUpdateCrag(event) {
       this.crag = event.target.value;
@@ -1192,12 +1188,6 @@ var AddClimberStore = function () {
     value: function onUpdateStyle(event) {
       this.style = event.target.value;
       this.styleValidationState = '';
-    }
-  }, {
-    key: 'onInvalidName',
-    value: function onInvalidName() {
-      this.nameValidationState = 'has-error';
-      this.helpBlock = 'Please enter a climber name.';
     }
   }, {
     key: 'onInvalidStyle',
@@ -1422,6 +1412,7 @@ var AuthService = function (_EventEmitter) {
         if (error) {
           console.log('Error loading the Profile', error);
         } else {
+          //profile is object containing name, gender, picture, etc
           _this2.setProfile(profile);
         }
       });
@@ -1437,6 +1428,7 @@ var AuthService = function (_EventEmitter) {
     value: function login() {
       // Call the show method to display the widget.
       this.lock.show();
+      console.log(window.localStorage);
     }
   }, {
     key: 'loggedIn',

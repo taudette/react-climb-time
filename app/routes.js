@@ -13,9 +13,9 @@ const auth = new AuthService('MIEC7uTda0Vz75qw3ZK8RX4fKysfxDtX', 'tyleraudette.a
 // validate authentication for private routes
 const requireAuth = (nextState, replace) => {
   if (!auth.loggedIn()) {
-    replace({ pathname: '/login' })
+    replace({ pathname: '/login' });
   }
-}
+};
 
 export default (
   <Route component={App} auth={auth}>
