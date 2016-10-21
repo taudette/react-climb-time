@@ -77,17 +77,8 @@ class Navbar extends React.Component {
           </Link>
         </div>
         <div id='navbar' className='navbar-collapse collapse'>
-          <form ref='searchForm' className='navbar-form navbar-left animated' onSubmit={this.handleSubmit.bind(this)}>
-            <div className='input-group'>
-              <input type='text' className='form-control' placeholder={this.state.totalClimbers + ' climbers'} value={this.state.searchQuery} onChange={NavbarActions.updateSearchQuery} />
-              <span className='input-group-btn'>
-                <button className='btn btn-default' onClick={this.handleSubmit.bind(this)}><span className='glyphicon glyphicon-search'></span></button>
-              </span>
-            </div>
-          </form>
           <ul className='nav navbar-nav'>
             <li><Link to='/'>Home</Link></li>
-              
             <li className='dropdown'>
               <a href='#' className='dropdown-toggle' data-toggle='dropdown'>Climbers <span className='caret'></span></a>
               <ul className='dropdown-menu'>
@@ -101,7 +92,6 @@ class Navbar extends React.Component {
                 <li>
                   <Link to='/climbers/boulder'>Boulder</Link>
                 </li>
-               
               </ul>
             </li>
             <li><Link to='/post'>Post</Link></li>

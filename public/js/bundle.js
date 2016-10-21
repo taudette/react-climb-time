@@ -77,7 +77,7 @@ var ClimbersActions = function () {
   function ClimbersActions() {
     _classCallCheck(this, ClimbersActions);
 
-    this.generateActions('getClimbersSuccess', 'getClimbersFail', 'deleteClimberSuccess', 'deleteClimberFail', 'filterClimbers');
+    this.generateActions('getClimbersSuccess', 'getClimbersFail', 'deleteClimberSuccess', 'deleteClimberFail', 'filterClimbers', 'getClimberCountSuccess', 'getClimberCountFail');
   }
 
   _createClass(ClimbersActions, [{
@@ -110,6 +110,17 @@ var ClimbersActions = function () {
         _this2.actions.deleteClimberSuccess(data);
       }).fail(function (jqXhr) {
         _this2.actions.deleteClimberFail('fail');
+      });
+    }
+  }, {
+    key: 'getClimberCount',
+    value: function getClimberCount() {
+      var _this3 = this;
+
+      $.ajax({ url: '/api/climbers/count' }).done(function (data) {
+        _this3.actions.getClimberCountSuccess(data);
+      }).fail(function (jqXhr) {
+        _this3.actions.getClimberCountFail(jqXhr);
       });
     }
   }, {
@@ -507,6 +518,7 @@ var Climbers = function (_React$Component) {
     value: function componentDidMount() {
       _ClimbersStore2.default.listen(this.onChange);
       _ClimbersActions2.default.getClimbers();
+      _ClimbersActions2.default.getClimberCount();
     }
   }, {
     key: 'componentWillUnmount',
@@ -625,7 +637,16 @@ var Climbers = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'filter-list' },
-            _react2.default.createElement('input', { type: 'text', placeholder: 'Search', onChange: this.filterClimbers })
+            _react2.default.createElement(
+              'div',
+              { className: 'input-group' },
+              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalClimbers + ' climbers', onChange: this.filterClimbers }),
+              _react2.default.createElement(
+                'span',
+                { className: 'input-group-addon', id: 'basic-addon2' },
+                _react2.default.createElement('span', { className: 'glyphicon glyphicon-search' })
+              )
+            )
           ),
           _react2.default.createElement(
             'ul',
@@ -950,24 +971,6 @@ var Navbar = function (_React$Component) {
           'div',
           { id: 'navbar', className: 'navbar-collapse collapse' },
           _react2.default.createElement(
-            'form',
-            { ref: 'searchForm', className: 'navbar-form navbar-left animated', onSubmit: this.handleSubmit.bind(this) },
-            _react2.default.createElement(
-              'div',
-              { className: 'input-group' },
-              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalClimbers + ' climbers', value: this.state.searchQuery, onChange: _NavbarActions2.default.updateSearchQuery }),
-              _react2.default.createElement(
-                'span',
-                { className: 'input-group-btn' },
-                _react2.default.createElement(
-                  'button',
-                  { className: 'btn btn-default', onClick: this.handleSubmit.bind(this) },
-                  _react2.default.createElement('span', { className: 'glyphicon glyphicon-search' })
-                )
-              )
-            )
-          ),
-          _react2.default.createElement(
             'ul',
             { className: 'nav navbar-nav' },
             _react2.default.createElement(
@@ -1253,6 +1256,7 @@ var ClimbersStore = function () {
     this.bindActions(_ClimbersActions2.default);
     this.climbers = [];
     this.allClimbers = [];
+    this.totalClimbers = 0;
   }
 
   _createClass(ClimbersStore, [{
@@ -1284,6 +1288,12 @@ var ClimbersStore = function () {
     key: 'onDeleteClimberFail',
     value: function onDeleteClimberFail(errorMessage) {
       toastr.error(errorMessage);
+    }
+  }, {
+    key: 'onGetClimberCountSuccess',
+    value: function onGetClimberCountSuccess(data) {
+      console.log(data);
+      this.totalClimbers = data.count;
     }
   }]);
 
@@ -1354,16 +1364,6 @@ var NavbarStore = function () {
     key: 'onUpdateSearchQuery',
     value: function onUpdateSearchQuery(event) {
       this.searchQuery = event.target.value;
-    }
-  }, {
-    key: 'onGetClimberCountSuccess',
-    value: function onGetClimberCountSuccess(data) {
-      this.totalClimbers = data.count;
-    }
-  }, {
-    key: 'onGetClimberCountFail',
-    value: function onGetClimberCountFail(jqXhr) {
-      toastr.error(jqXhr.responseJSON.message);
     }
   }]);
 

@@ -6,6 +6,7 @@ class ClimbersStore {
     this.bindActions(ClimbersActions);
     this.climbers = [];
     this.allClimbers = [];
+    this.totalClimbers = 0;
   }
 
   onGetClimbersSuccess(data) {
@@ -32,6 +33,11 @@ class ClimbersStore {
 
   onDeleteClimberFail(errorMessage) {
     toastr.error(errorMessage);
+  }
+
+  onGetClimberCountSuccess(data) {
+    console.log(data)
+    this.totalClimbers = data.count;
   }
 }
 

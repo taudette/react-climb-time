@@ -32,14 +32,6 @@ class NavbarStore {
   onUpdateSearchQuery(event) {
     this.searchQuery = event.target.value;
   }
-
-  onGetClimberCountSuccess(data) {
-    this.totalClimbers= data.count;
-  }
-
-  onGetClimberCountFail(jqXhr) {
-    toastr.error(jqXhr.responseJSON.message);
-  }
 }
 
 export default alt.createStore(NavbarStore);

@@ -8,6 +8,8 @@ class ClimbersActions {
       'deleteClimberSuccess',
       'deleteClimberFail',
       'filterClimbers',
+      'getClimberCountSuccess',
+      'getClimberCountFail',
     );
   }
 
@@ -38,6 +40,16 @@ class ClimbersActions {
       })
       .fail(jqXhr => {
         this.actions.deleteClimberFail('fail');
+      });
+  }
+
+  getClimberCount() {
+    $.ajax({ url: '/api/climbers/count' })
+      .done((data) => {
+        this.actions.getClimberCountSuccess(data);
+      })
+      .fail((jqXhr) => {
+        this.actions.getClimberCountFail(jqXhr);
       });
   }
 
