@@ -1,6 +1,7 @@
 import React from 'react';
 import AddClimberStore from '../stores/AddClimberStore';
 import AddClimberActions from '../actions/AddClimberActions';
+import {Link} from 'react-router';
 
 class AddClimber extends React.Component {
 
@@ -15,11 +16,11 @@ class AddClimber extends React.Component {
     this.state.name = window.localStorage.profile.name;
     const user = JSON.parse(window.localStorage.profile);
     this.state.name = user.name;
+    this.state.picture = user.picture_large;
   }
 
   onChange(state) {
     this.setState(state);
-    console.log(state)
   }
 
   componentWillUnMount() {
@@ -28,13 +29,16 @@ class AddClimber extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state.name)
-    const name = this.state.name;
-    const crag = this.state.crag;
-    const contact = this.state.contact;
-    const style = this.state.style;
-    if (name && crag && contact && style) {
-      AddClimberActions.addClimber(name, crag, contact, style);
+    var user = {
+      name: this.state.name,
+      crag: this.state.crag,
+      contact: this.state.contact,
+      style: this.state.style,
+      picture: this.state.picture,
+    };
+
+    if (user.name && user.crag && user.contact && user.style) {
+      AddClimberActions.addClimber(user);
     }
   }
 

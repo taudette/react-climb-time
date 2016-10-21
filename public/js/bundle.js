@@ -19,21 +19,31 @@ var AddClimberActions = function () {
   function AddClimberActions() {
     _classCallCheck(this, AddClimberActions);
 
-    this.generateActions('addClimberSuccess', 'addClimberFail', 'updateName', 'updateCrag', 'updateContact', 'updateStyle', 'invalidName', 'invalidStyle');
+    this.generateActions('addClimberSuccess', 'addClimberFail', 'updateName', 'updateCrag', 'updateContact', 'updateStyle', 'updatePicture', 'invalidName', 'invalidStyle');
   }
 
   _createClass(AddClimberActions, [{
     key: 'addClimber',
-    value: function addClimber(name, crag, contact, style) {
+    value: function addClimber(user) {
       var _this = this;
 
       $.ajax({
         type: 'POST',
         url: '/api/climbers',
-        data: { name: name, crag: crag, contact: contact, style: style }
+        data: {
+          name: user.name,
+          crag: user.crag,
+          contact: user.contact,
+          style: user.style,
+          picture: user.picture
+        }
       }).done(function (data) {
         var message = data[data.length - 1].name + ' has been added';
         _this.actions.addClimberSuccess(message);
+
+        setTimeout(function () {
+          window.location.href = '/climbers';
+        }, 500);
       }).fail(function () {
         var message = 'Climber has not been added';
         _this.actions.addClimberFail(message);
@@ -211,6 +221,8 @@ var _AddClimberActions = require('../actions/AddClimberActions');
 
 var _AddClimberActions2 = _interopRequireDefault(_AddClimberActions);
 
+var _reactRouter = require('react-router');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -239,12 +251,12 @@ var AddClimber = function (_React$Component) {
       this.state.name = window.localStorage.profile.name;
       var user = JSON.parse(window.localStorage.profile);
       this.state.name = user.name;
+      this.state.picture = user.picture_large;
     }
   }, {
     key: 'onChange',
     value: function onChange(state) {
       this.setState(state);
-      console.log(state);
     }
   }, {
     key: 'componentWillUnMount',
@@ -255,13 +267,16 @@ var AddClimber = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
       event.preventDefault();
-      console.log(this.state.name);
-      var name = this.state.name;
-      var crag = this.state.crag;
-      var contact = this.state.contact;
-      var style = this.state.style;
-      if (name && crag && contact && style) {
-        _AddClimberActions2.default.addClimber(name, crag, contact, style);
+      var user = {
+        name: this.state.name,
+        crag: this.state.crag,
+        contact: this.state.contact,
+        style: this.state.style,
+        picture: this.state.picture
+      };
+
+      if (user.name && user.crag && user.contact && user.style) {
+        _AddClimberActions2.default.addClimber(user);
       }
     }
   }, {
@@ -383,7 +398,7 @@ var AddClimber = function (_React$Component) {
 
 exports.default = AddClimber;
 
-},{"../actions/AddClimberActions":1,"../stores/AddClimberStore":14,"react":"react"}],7:[function(require,module,exports){
+},{"../actions/AddClimberActions":1,"../stores/AddClimberStore":14,"react":"react","react-router":"react-router"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -535,6 +550,15 @@ var Climbers = function (_React$Component) {
                   'strong',
                   null,
                   climber.name
+                )
+              ),
+              _react2.default.createElement(
+                'ul',
+                { className: 'list-inline' },
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement('img', { src: climber.picture, alt: 'profile-picture', width: 150, height: 150 })
                 )
               ),
               _react2.default.createElement(

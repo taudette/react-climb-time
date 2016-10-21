@@ -9,20 +9,31 @@ class AddClimberActions {
       'updateCrag',
       'updateContact',
       'updateStyle',
+      'updatePicture',
       'invalidName',
       'invalidStyle'
     );
   }
 
-  addClimber(name, crag, contact, style) {
+  addClimber(user) {
     $.ajax({
       type: 'POST',
       url: '/api/climbers',
-      data: { name: name, crag: crag, contact: contact, style: style },
+      data: {
+        name: user.name,
+        crag: user.crag,
+        contact: user.contact,
+        style: user.style,
+        picture: user.picture,
+      },
     })
       .done((data) => {
         const message = data[data.length - 1].name + ' has been added';
         this.actions.addClimberSuccess(message);
+
+        setTimeout(() => {
+          window.location.href = '/climbers';
+        }, 500);
       })
       .fail(() => {
         const message = 'Climber has not been added';

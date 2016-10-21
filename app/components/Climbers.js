@@ -5,7 +5,6 @@ import ClimbersActions from '../actions/ClimbersActions';
 import { first, without, findWhere } from 'underscore';
 
 class Climbers extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = ClimbersStore.getState();
@@ -40,6 +39,9 @@ class Climbers extends React.Component {
           <div className='thumbnail fadeInUp animated'>
             <div className='caption text-center'>
             <h4><strong>{climber.name}</strong></h4>
+              <ul className='list-inline'>
+                <li><img src={climber.picture} alt="profile-picture" width={150} height={150} /></li>
+              </ul>
               <ul className='list-inline'>
                 <li><strong>Crag:</strong> {climber.crag}</li>
               </ul>

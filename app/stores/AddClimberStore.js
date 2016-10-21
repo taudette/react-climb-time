@@ -23,7 +23,6 @@ class AddClimberStore {
     this.helpBlock = errorMessage;
   }
 
-
   onUpdateCrag(event) {
     this.crag = event.target.value;
     this.cragValidationState = '';
