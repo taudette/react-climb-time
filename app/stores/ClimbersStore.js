@@ -16,10 +16,26 @@ class ClimbersStore {
 
   onFilterClimbers(event) {
     const climbers = this.allClimbers;
-    const filteredClimbers = climbers.filter(climber => 
+    // TODO: combine into 1 function
+    const filteredNames = climbers.filter(climber =>
       climber.name.toLowerCase().search(
         event.target.value.toLowerCase()) !== -1
     );
+
+    const filteredStates = climbers.filter(climber =>
+      climber.zone.toLowerCase().search(
+        event.target.value.toLowerCase()) !== -1
+    );
+    const filteredStyles = climbers.filter(climber =>
+      climber.style.toLowerCase().search(
+        event.target.value.toLowerCase()) !== -1
+    );
+    const filteredCrags = climbers.filter(climber =>
+      climber.crag.toLowerCase().search(
+        event.target.value.toLowerCase()) !== -1
+    );
+    const filteredClimbers = filteredNames.concat(filteredStates, filteredCrags, filteredStyles);
+
     this.climbers = filteredClimbers;
   }
 

@@ -1171,7 +1171,6 @@ var Navbar = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       _NavbarStore2.default.listen(this.onChange);
-      _NavbarActions2.default.getClimberCount();
 
       var socket = io.connect();
 
@@ -1525,9 +1524,22 @@ var ClimbersStore = function () {
     key: 'onFilterClimbers',
     value: function onFilterClimbers(event) {
       var climbers = this.allClimbers;
-      var filteredClimbers = climbers.filter(function (climber) {
+      // TODO: combine into 1 function
+      var filteredNames = climbers.filter(function (climber) {
         return climber.name.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
       });
+
+      var filteredStates = climbers.filter(function (climber) {
+        return climber.zone.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+      });
+      var filteredStyles = climbers.filter(function (climber) {
+        return climber.style.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+      });
+      var filteredCrags = climbers.filter(function (climber) {
+        return climber.crag.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+      });
+      var filteredClimbers = filteredNames.concat(filteredStates, filteredCrags, filteredStyles);
+
       this.climbers = filteredClimbers;
     }
   }, {

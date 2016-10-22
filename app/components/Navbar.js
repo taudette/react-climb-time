@@ -12,7 +12,6 @@ class Navbar extends React.Component {
 
   componentDidMount() {
     NavbarStore.listen(this.onChange);
-    NavbarActions.getClimberCount();
 
     let socket = io.connect();
 
