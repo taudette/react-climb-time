@@ -79,21 +79,7 @@ class Navbar extends React.Component {
         <div id='navbar' className='navbar-collapse collapse'>
           <ul className='nav navbar-nav'>
             <li><Link to='/'>Home</Link></li>
-            <li className='dropdown'>
-              <a href='#' className='dropdown-toggle' data-toggle='dropdown'>Climbers <span className='caret'></span></a>
-              <ul className='dropdown-menu'>
-                <li><Link to='/climbers'>All</Link></li>
-                <li>
-                  <Link to='/climbers/trad'>Trad</Link>
-                </li>
-                <li>
-                  <Link to='/climbers/sport'>Sport</Link>
-                </li>
-                <li>
-                  <Link to='/climbers/boulder'>Boulder</Link>
-                </li>
-              </ul>
-            </li>
+            <li><Link to='/climbers'>Find Climbing Partners</Link></li>
             <li><Link to='/post'>Post</Link></li>
             <li><Link to='/login'>Login</Link></li>
           </ul>

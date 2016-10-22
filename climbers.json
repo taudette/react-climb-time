@@ -1,9 +1,42 @@
 [
     {
         "name": "Tyler Audette",
-        "crag": "dfgdf",
-        "contact": "dsdg",
+        "zone": "AL",
+        "crag": "df",
+        "contact": "dg",
         "style": "Boulder",
+        "picture": "https://scontent.xx.fbcdn.net/t31.0-1/13411850_10206729376141531_1589987656469444433_o.jpg"
+    },
+    {
+        "name": "mal ",
+        "zone": "AL",
+        "crag": "df",
+        "contact": "dg",
+        "style": "Boulder",
+        "picture": "https://scontent.xx.fbcdn.net/t31.0-1/13411850_10206729376141531_1589987656469444433_o.jpg"
+    },
+    {
+        "name": "max",
+        "zone": "AL",
+        "crag": "df",
+        "contact": "dg",
+        "style": "Boulder",
+        "picture": "https://scontent.xx.fbcdn.net/t31.0-1/13411850_10206729376141531_1589987656469444433_o.jpg"
+    },
+    {
+        "name": "addie",
+        "zone": "MA",
+        "crag": "df",
+        "contact": "dg",
+        "style": "Boulder",
+        "picture": "https://scontent.xx.fbcdn.net/t31.0-1/13411850_10206729376141531_1589987656469444433_o.jpg"
+    },
+    {
+        "name": "cindy",
+        "zone": "AL",
+        "crag": "df",
+        "contact": "dg",
+        "style": "any",
         "picture": "https://scontent.xx.fbcdn.net/t31.0-1/13411850_10206729376141531_1589987656469444433_o.jpg"
     }
 ]

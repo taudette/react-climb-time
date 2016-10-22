@@ -16,10 +16,10 @@ class ClimbersStore {
 
   onFilterClimbers(event) {
     const climbers = this.allClimbers;
-    const filteredClimbers = climbers.filter(function(climber) {
-      return climber.name.toLowerCase().search(
-        event.target.value.toLowerCase()) !== -1;
-    });
+    const filteredClimbers = climbers.filter(climber => 
+      climber.name.toLowerCase().search(
+        event.target.value.toLowerCase()) !== -1
+    );
     this.climbers = filteredClimbers;
   }
 
@@ -36,7 +36,6 @@ class ClimbersStore {
   }
 
   onGetClimberCountSuccess(data) {
-    console.log(data)
     this.totalClimbers = data.count;
   }
 }

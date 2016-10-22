@@ -6,6 +6,7 @@ class AddClimberActions {
       'addClimberSuccess',
       'addClimberFail',
       'updateName',
+      'updateZone',
       'updateCrag',
       'updateContact',
       'updateStyle',
@@ -21,6 +22,7 @@ class AddClimberActions {
       url: '/api/climbers',
       data: {
         name: user.name,
+        zone: user.zone,
         crag: user.crag,
         contact: user.contact,
         style: user.style,
@@ -31,9 +33,9 @@ class AddClimberActions {
         const message = data[data.length - 1].name + ' has been added';
         this.actions.addClimberSuccess(message);
 
-        setTimeout(() => {
-          window.location.href = '/climbers';
-        }, 500);
+        // setTimeout(() => {
+        //   window.location.href = '/climbers';
+        // }, 500);
       })
       .fail(() => {
         const message = 'Climber has not been added';

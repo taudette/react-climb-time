@@ -19,7 +19,7 @@ var AddClimberActions = function () {
   function AddClimberActions() {
     _classCallCheck(this, AddClimberActions);
 
-    this.generateActions('addClimberSuccess', 'addClimberFail', 'updateName', 'updateCrag', 'updateContact', 'updateStyle', 'updatePicture', 'invalidName', 'invalidStyle');
+    this.generateActions('addClimberSuccess', 'addClimberFail', 'updateName', 'updateZone', 'updateCrag', 'updateContact', 'updateStyle', 'updatePicture', 'invalidName', 'invalidStyle');
   }
 
   _createClass(AddClimberActions, [{
@@ -32,6 +32,7 @@ var AddClimberActions = function () {
         url: '/api/climbers',
         data: {
           name: user.name,
+          zone: user.zone,
           crag: user.crag,
           contact: user.contact,
           style: user.style,
@@ -41,9 +42,9 @@ var AddClimberActions = function () {
         var message = data[data.length - 1].name + ' has been added';
         _this.actions.addClimberSuccess(message);
 
-        setTimeout(function () {
-          window.location.href = '/climbers';
-        }, 500);
+        // setTimeout(() => {
+        //   window.location.href = '/climbers';
+        // }, 500);
       }).fail(function () {
         var message = 'Climber has not been added';
         _this.actions.addClimberFail(message);
@@ -159,7 +160,7 @@ var NavbarActions = function () {
   function NavbarActions() {
     _classCallCheck(this, NavbarActions);
 
-    this.generateActions('updateOnlineUsers', 'updateAjaxAnimation', 'updateSearchQuery', 'getClimberCountSuccess', 'getClimberCountFail', 'findClimberSuccess', 'findClimberFail');
+    this.generateActions('updateOnlineUsers', 'updateAjaxAnimation', 'updateSearchQuery', 'findClimberSuccess', 'findClimberFail');
   }
 
   _createClass(NavbarActions, [{
@@ -176,17 +177,6 @@ var NavbarActions = function () {
         _this.actions.findClimberSuccess(data);
       }).fail(function () {
         _this.actions.findClimberFail('failed');
-      });
-    }
-  }, {
-    key: 'getClimberCount',
-    value: function getClimberCount() {
-      var _this2 = this;
-
-      $.ajax({ url: '/api/climbers/count' }).done(function (data) {
-        _this2.actions.getClimberCountSuccess(data);
-      }).fail(function (jqXhr) {
-        _this2.actions.getClimberCountFail(jqXhr);
       });
     }
   }]);
@@ -281,6 +271,7 @@ var AddClimber = function (_React$Component) {
       var user = {
         name: this.state.name,
         crag: this.state.crag,
+        zone: this.state.zone,
         contact: this.state.contact,
         style: this.state.style,
         picture: this.state.picture
@@ -308,7 +299,7 @@ var AddClimber = function (_React$Component) {
               _react2.default.createElement(
                 'div',
                 { className: 'panel-heading' },
-                'Add Climber'
+                'Post Climbing Request'
               ),
               _react2.default.createElement(
                 'div',
@@ -316,6 +307,293 @@ var AddClimber = function (_React$Component) {
                 _react2.default.createElement(
                   'form',
                   { onSubmit: this.handleSubmit.bind(this) },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'help-block' },
+                    this.state.helpBlock
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'form-group ' + this.state.zoneValidationState },
+                    _react2.default.createElement(
+                      'label',
+                      { htmlFor: 'state', className: 'control-label' },
+                      'State'
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      null,
+                      _react2.default.createElement(
+                        'select',
+                        { className: 'form-control', id: 'state', value: this.state.zone, name: 'state', onChange: _AddClimberActions2.default.updateZone },
+                        _react2.default.createElement(
+                          'option',
+                          { value: '' },
+                          'N/A'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'AK' },
+                          'Alaska'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'AL' },
+                          'Alabama'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'AR' },
+                          'Arkansas'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'AZ' },
+                          'Arizona'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'CA' },
+                          'California'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'CO' },
+                          'Colorado'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'CT' },
+                          'Connecticut'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'DC' },
+                          'District of Columbia'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'DE' },
+                          'Delaware'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'FL' },
+                          'Florida'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'GA' },
+                          'Georgia'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'HI' },
+                          'Hawaii'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'IA' },
+                          'Iowa'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'ID' },
+                          'Idaho'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'IL' },
+                          'Illinois'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'IN' },
+                          'Indiana'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'KS' },
+                          'Kansas'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'KY' },
+                          'Kentucky'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'LA' },
+                          'Louisiana'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'MA' },
+                          'Massachusetts'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'MD' },
+                          'Maryland'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'ME' },
+                          'Maine'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'MI' },
+                          'Michigan'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'MN' },
+                          'Minnesota'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'MO' },
+                          'Missouri'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'MS' },
+                          'Mississippi'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'MT' },
+                          'Montana'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'NC' },
+                          'North Carolina'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'ND' },
+                          'North Dakota'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'NE' },
+                          'Nebraska'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'NH' },
+                          'New Hampshire'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'NJ' },
+                          'New Jersey'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'NM' },
+                          'New Mexico'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'NV' },
+                          'Nevada'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'NY' },
+                          'New York'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'OH' },
+                          'Ohio'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'OK' },
+                          'Oklahoma'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'OR' },
+                          'Oregon'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'PA' },
+                          'Pennsylvania'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'PR' },
+                          'Puerto Rico'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'RI' },
+                          'Rhode Island'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'SC' },
+                          'South Carolina'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'SD' },
+                          'South Dakota'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'TN' },
+                          'Tennessee'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'TX' },
+                          'Texas'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'UT' },
+                          'Utah'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'VA' },
+                          'Virginia'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'VT' },
+                          'Vermont'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'WA' },
+                          'Washington'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'WI' },
+                          'Wisconsin'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'WV' },
+                          'West Virginia'
+                        ),
+                        _react2.default.createElement(
+                          'option',
+                          { value: 'WY' },
+                          'Wyoming'
+                        )
+                      )
+                    )
+                  ),
                   _react2.default.createElement(
                     'div',
                     { className: 'form-group ' + this.state.cragValidationState },
@@ -326,12 +604,7 @@ var AddClimber = function (_React$Component) {
                     ),
                     _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'nameTextField', value: this.state.crag,
                       onChange: _AddClimberActions2.default.updateCrag, autoFocus: true
-                    }),
-                    _react2.default.createElement(
-                      'span',
-                      { className: 'help-block' },
-                      this.state.helpBlock
-                    )
+                    })
                   ),
                   _react2.default.createElement(
                     'div',
@@ -339,16 +612,11 @@ var AddClimber = function (_React$Component) {
                     _react2.default.createElement(
                       'label',
                       { className: 'control-label' },
-                      'Contact'
+                      'Contact (leave blank if you want to communicate only through climb time)'
                     ),
                     _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'nameTextField', value: this.state.contact,
                       onChange: _AddClimberActions2.default.updateContact, autoFocus: true
-                    }),
-                    _react2.default.createElement(
-                      'span',
-                      { className: 'help-block' },
-                      this.state.helpBlock
-                    )
+                    })
                   ),
                   _react2.default.createElement(
                     'div',
@@ -387,6 +655,18 @@ var AddClimber = function (_React$Component) {
                         'label',
                         { htmlFor: 'trad' },
                         'Trad'
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'radio radio-inline' },
+                      _react2.default.createElement('input', { type: 'radio', name: 'style', id: 'any', value: 'Any', checked: this.state.style === 'Any',
+                        onChange: _AddClimberActions2.default.updateStyle
+                      }),
+                      _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'any' },
+                        'Any'
                       )
                     )
                   ),
@@ -546,9 +826,47 @@ var Climbers = function (_React$Component) {
       var _this2 = this;
 
       var climberNodes = this.state.climbers.map(function (climber) {
+        // optional parameters
+        var picture = void 0;
+        if (climber.picture) {
+          picture = _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement('img', { src: climber.picture, alt: 'profile-picture', width: 150, height: 150 })
+          );
+        }
+        var contact = void 0;
+        if (climber.contact) {
+          contact = _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'strong',
+              null,
+              'Contact:'
+            ),
+            ' ',
+            climber.contact
+          );
+        }
+        var crag = void 0;
+        if (climber.crag) {
+          crag = _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'strong',
+              null,
+              'Crag:'
+            ),
+            ' ',
+            climber.crag
+          );
+        }
+
         return _react2.default.createElement(
           'li',
-          null,
+          { key: climber.name },
           _react2.default.createElement(
             'div',
             { className: 'thumbnail fadeInUp animated' },
@@ -566,46 +884,21 @@ var Climbers = function (_React$Component) {
               ),
               _react2.default.createElement(
                 'ul',
-                { className: 'list-inline' },
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement('img', { src: climber.picture, alt: 'profile-picture', width: 150, height: 150 })
-                )
-              ),
-              _react2.default.createElement(
-                'ul',
-                { className: 'list-inline' },
+                null,
+                picture,
                 _react2.default.createElement(
                   'li',
                   null,
                   _react2.default.createElement(
                     'strong',
                     null,
-                    'Crag:'
+                    'State:'
                   ),
                   ' ',
-                  climber.crag
-                )
-              ),
-              _react2.default.createElement(
-                'ul',
-                { className: 'list-inline' },
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    'strong',
-                    null,
-                    'Contact:'
-                  ),
-                  ' ',
-                  climber.contact
-                )
-              ),
-              _react2.default.createElement(
-                'ul',
-                { className: 'list-inline' },
+                  climber.zone
+                ),
+                crag,
+                contact,
                 _react2.default.createElement(
                   'li',
                   null,
@@ -636,16 +929,12 @@ var Climbers = function (_React$Component) {
           { className: 'row' },
           _react2.default.createElement(
             'div',
-            { className: 'filter-list' },
+            { className: 'input-group' },
+            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalClimbers + ' climbers', onChange: this.filterClimbers }),
             _react2.default.createElement(
-              'div',
-              { className: 'input-group' },
-              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalClimbers + ' climbers', onChange: this.filterClimbers }),
-              _react2.default.createElement(
-                'span',
-                { className: 'input-group-addon', id: 'basic-addon2' },
-                _react2.default.createElement('span', { className: 'glyphicon glyphicon-search' })
-              )
+              'span',
+              { className: 'input-group-addon', id: 'basic-addon2' },
+              _react2.default.createElement('span', { className: 'glyphicon glyphicon-search' })
             )
           ),
           _react2.default.createElement(
@@ -984,52 +1273,11 @@ var Navbar = function (_React$Component) {
             ),
             _react2.default.createElement(
               'li',
-              { className: 'dropdown' },
+              null,
               _react2.default.createElement(
-                'a',
-                { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown' },
-                'Climbers ',
-                _react2.default.createElement('span', { className: 'caret' })
-              ),
-              _react2.default.createElement(
-                'ul',
-                { className: 'dropdown-menu' },
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/climbers' },
-                    'All'
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/climbers/trad' },
-                    'Trad'
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/climbers/sport' },
-                    'Sport'
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/climbers/boulder' },
-                    'Boulder'
-                  )
-                )
+                _reactRouter.Link,
+                { to: '/climbers' },
+                'Find Climbing Partners'
               )
             ),
             _react2.default.createElement(
@@ -1178,10 +1426,12 @@ var AddClimberStore = function () {
 
     this.bindActions(_AddClimberActions2.default);
     this.crag = '';
+    this.zone = '';
     this.contact = '';
     this.style = '';
     this.helpBlock = '';
     this.cragValidationState = '';
+    this.zoneValidationState = '';
     this.contactValidationState = '';
     this.styleValidationState = '';
   }
@@ -1203,6 +1453,12 @@ var AddClimberStore = function () {
     value: function onUpdateCrag(event) {
       this.crag = event.target.value;
       this.cragValidationState = '';
+    }
+  }, {
+    key: 'onUpdateZone',
+    value: function onUpdateZone(event) {
+      this.zone = event.target.value;
+      this.zoneValidationState = '';
     }
   }, {
     key: 'onUpdateContact',
@@ -1292,7 +1548,6 @@ var ClimbersStore = function () {
   }, {
     key: 'onGetClimberCountSuccess',
     value: function onGetClimberCountSuccess(data) {
-      console.log(data);
       this.totalClimbers = data.count;
     }
   }]);
@@ -1452,7 +1707,6 @@ var AuthService = function (_EventEmitter) {
     value: function login() {
       // Call the show method to display the widget.
       this.lock.show();
-      console.log(window.localStorage);
     }
   }, {
     key: 'loggedIn',

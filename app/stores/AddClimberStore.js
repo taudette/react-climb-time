@@ -5,10 +5,12 @@ class AddClimberStore {
   constructor() {
     this.bindActions(AddClimberActions);
     this.crag = '';
+    this.zone = '';
     this.contact = '';
     this.style = '';
     this.helpBlock = '';
     this.cragValidationState = '';
+    this.zoneValidationState = '';
     this.contactValidationState = '';
     this.styleValidationState = '';
   }
@@ -26,6 +28,11 @@ class AddClimberStore {
   onUpdateCrag(event) {
     this.crag = event.target.value;
     this.cragValidationState = '';
+  }
+
+  onUpdateZone(event) {
+    this.zone = event.target.value;
+    this.zoneValidationState = '';
   }
 
   onUpdateContact(event) {
