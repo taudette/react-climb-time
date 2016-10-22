@@ -8,14 +8,6 @@
         "picture": "https://scontent.xx.fbcdn.net/t31.0-1/13411850_10206729376141531_1589987656469444433_o.jpg"
     },
     {
-        "name": "mal ",
-        "zone": "AL",
-        "crag": "df",
-        "contact": "dg",
-        "style": "Boulder",
-        "picture": "https://scontent.xx.fbcdn.net/t31.0-1/13411850_10206729376141531_1589987656469444433_o.jpg"
-    },
-    {
         "name": "max",
         "zone": "AL",
         "crag": "df",
@@ -37,6 +29,14 @@
         "crag": "df",
         "contact": "dg",
         "style": "any",
+        "picture": "https://scontent.xx.fbcdn.net/t31.0-1/13411850_10206729376141531_1589987656469444433_o.jpg"
+    },
+    {
+        "name": "Tyler Audette",
+        "zone": "AR",
+        "crag": "mallory",
+        "contact": "dfdfg",
+        "style": "Boulder",
         "picture": "https://scontent.xx.fbcdn.net/t31.0-1/13411850_10206729376141531_1589987656469444433_o.jpg"
     }
 ]

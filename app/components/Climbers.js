@@ -78,7 +78,7 @@ class Climbers extends React.Component {
       <div className='container'>
         <div className='row'>
           <div className="input-group">
-            <input type="text" className="form-control" placeholder={this.state.totalClimbers + ' climbers'} onChange={this.filterClimbers} />
+            <input type="text" className="form-control" placeholder={this.state.totalClimbers + ' climbers: Search by state, style, or crag'} onChange={this.filterClimbers} />
             <span className="input-group-addon" id="basic-addon2"><span className='glyphicon glyphicon-search'></span></span>
           </div>
           <ul className='col-md-3'>

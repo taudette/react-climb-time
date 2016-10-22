@@ -930,7 +930,7 @@ var Climbers = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'input-group' },
-            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalClimbers + ' climbers', onChange: this.filterClimbers }),
+            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalClimbers + ' climbers: Search by state, style, or crag', onChange: this.filterClimbers }),
             _react2.default.createElement(
               'span',
               { className: 'input-group-addon', id: 'basic-addon2' },
@@ -1383,9 +1383,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var auth = new _AuthService2.default('MIEC7uTda0Vz75qw3ZK8RX4fKysfxDtX', 'tyleraudette.auth0.com');
 
 // validate authentication for private routes
-var requireAuth = function requireAuth(nextState, replace) {
+var requireAuth = function requireAuth(nextState, replaceState) {
   if (!auth.loggedIn()) {
-    replace({ pathname: '/login' });
+    replaceState({ nextPathname: nextState.location.pathname }, '/login');
   }
 };
 
@@ -1393,8 +1393,8 @@ exports.default = _react2.default.createElement(
   _reactRouter.Route,
   { component: _App2.default, auth: auth },
   _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default, auth: auth }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/post', component: _AddClimber2.default }),
+  _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default }),
+  _react2.default.createElement(_reactRouter.Route, { path: '/post', component: _AddClimber2.default, onEnter: requireAuth }),
   _react2.default.createElement(_reactRouter.Route, { path: '/climbers', component: _Climbers2.default })
 );
 
