@@ -78,7 +78,7 @@ var ClimbersActions = function () {
   function ClimbersActions() {
     _classCallCheck(this, ClimbersActions);
 
-    this.generateActions('getClimbersSuccess', 'getClimbersFail', 'deleteClimberSuccess', 'deleteClimberFail', 'filterClimbers', 'getClimberCountSuccess', 'getClimberCountFail');
+    this.generateActions('getClimbersSuccess', 'getClimbersFail', 'deleteClimberSuccess', 'deleteClimberFail', 'filterClimbers', 'updateZone', 'getClimberCountSuccess', 'getClimberCountFail');
   }
 
   _createClass(ClimbersActions, [{
@@ -128,6 +128,11 @@ var ClimbersActions = function () {
     key: 'filterClimbers',
     value: function filterClimbers(event) {
       this.actions.filterClimbers(event.target.value);
+    }
+  }, {
+    key: 'updateZone',
+    value: function updateZone(event) {
+      this.actions.updateZone(event.target.value);
     }
   }]);
 
@@ -928,6 +933,292 @@ var Climbers = function (_React$Component) {
           'div',
           { className: 'row' },
           _react2.default.createElement(
+            'form',
+            null,
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + this.state.zoneValidationState },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'state', className: 'control-label' },
+                'State'
+              ),
+              _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                  'select',
+                  { className: 'form-control', id: 'state', value: this.state.zone, name: 'state', onChange: _ClimbersActions2.default.updateZone },
+                  _react2.default.createElement(
+                    'option',
+                    { value: '' },
+                    'N/A'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'AK' },
+                    'Alaska'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'AL' },
+                    'Alabama'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'AR' },
+                    'Arkansas'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'AZ' },
+                    'Arizona'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'CA' },
+                    'California'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'CO' },
+                    'Colorado'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'CT' },
+                    'Connecticut'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'DC' },
+                    'District of Columbia'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'DE' },
+                    'Delaware'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'FL' },
+                    'Florida'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'GA' },
+                    'Georgia'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'HI' },
+                    'Hawaii'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'IA' },
+                    'Iowa'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'ID' },
+                    'Idaho'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'IL' },
+                    'Illinois'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'IN' },
+                    'Indiana'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'KS' },
+                    'Kansas'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'KY' },
+                    'Kentucky'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'LA' },
+                    'Louisiana'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'MA' },
+                    'Massachusetts'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'MD' },
+                    'Maryland'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'ME' },
+                    'Maine'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'MI' },
+                    'Michigan'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'MN' },
+                    'Minnesota'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'MO' },
+                    'Missouri'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'MS' },
+                    'Mississippi'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'MT' },
+                    'Montana'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'NC' },
+                    'North Carolina'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'ND' },
+                    'North Dakota'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'NE' },
+                    'Nebraska'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'NH' },
+                    'New Hampshire'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'NJ' },
+                    'New Jersey'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'NM' },
+                    'New Mexico'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'NV' },
+                    'Nevada'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'NY' },
+                    'New York'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'OH' },
+                    'Ohio'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'OK' },
+                    'Oklahoma'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'OR' },
+                    'Oregon'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'PA' },
+                    'Pennsylvania'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'PR' },
+                    'Puerto Rico'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'RI' },
+                    'Rhode Island'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'SC' },
+                    'South Carolina'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'SD' },
+                    'South Dakota'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'TN' },
+                    'Tennessee'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'TX' },
+                    'Texas'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'UT' },
+                    'Utah'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'VA' },
+                    'Virginia'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'VT' },
+                    'Vermont'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'WA' },
+                    'Washington'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'WI' },
+                    'Wisconsin'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'WV' },
+                    'West Virginia'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: 'WY' },
+                    'Wyoming'
+                  )
+                )
+              )
+            )
+          ),
+          _react2.default.createElement(
             'div',
             { className: 'input-group' },
             _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalClimbers + ' climbers: Search by state, style, or crag', onChange: this.filterClimbers }),
@@ -1512,6 +1803,7 @@ var ClimbersStore = function () {
     this.climbers = [];
     this.allClimbers = [];
     this.totalClimbers = 0;
+    this.zoneValidationState = '';
   }
 
   _createClass(ClimbersStore, [{
@@ -1521,6 +1813,16 @@ var ClimbersStore = function () {
       this.allClimbers = data;
     }
   }, {
+    key: 'onUpdateZone',
+    value: function onUpdateZone(event) {
+      var climbers = this.allClimbers;
+      var filteredStates = climbers.filter(function (climber) {
+        return climber.zone.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+      });
+
+      this.climbers = filteredStates;
+    }
+  }, {
     key: 'onFilterClimbers',
     value: function onFilterClimbers(event) {
       var climbers = this.allClimbers;
@@ -1528,17 +1830,13 @@ var ClimbersStore = function () {
       var filteredNames = climbers.filter(function (climber) {
         return climber.name.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
       });
-
-      var filteredStates = climbers.filter(function (climber) {
-        return climber.zone.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
-      });
       var filteredStyles = climbers.filter(function (climber) {
         return climber.style.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
       });
       var filteredCrags = climbers.filter(function (climber) {
         return climber.crag.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
       });
-      var filteredClimbers = filteredNames.concat(filteredStates, filteredCrags, filteredStyles);
+      var filteredClimbers = filteredNames.concat(filteredCrags, filteredStyles);
 
       this.climbers = filteredClimbers;
     }

@@ -7,6 +7,7 @@ class ClimbersStore {
     this.climbers = [];
     this.allClimbers = [];
     this.totalClimbers = 0;
+    this.zoneValidationState = '';
   }
 
   onGetClimbersSuccess(data) {
@@ -14,16 +15,21 @@ class ClimbersStore {
     this.allClimbers = data;
   }
 
+  onUpdateZone(event) {
+    const climbers = this.allClimbers;
+    const filteredStates = climbers.filter(climber =>
+      climber.zone.toLowerCase().search(
+        event.target.value.toLowerCase()) !== -1
+    );
+
+    this.climbers = filteredStates;
+  }
+
   onFilterClimbers(event) {
     const climbers = this.allClimbers;
     // TODO: combine into 1 function
     const filteredNames = climbers.filter(climber =>
       climber.name.toLowerCase().search(
-        event.target.value.toLowerCase()) !== -1
-    );
-
-    const filteredStates = climbers.filter(climber =>
-      climber.zone.toLowerCase().search(
         event.target.value.toLowerCase()) !== -1
     );
     const filteredStyles = climbers.filter(climber =>
@@ -34,7 +40,7 @@ class ClimbersStore {
       climber.crag.toLowerCase().search(
         event.target.value.toLowerCase()) !== -1
     );
-    const filteredClimbers = filteredNames.concat(filteredStates, filteredCrags, filteredStyles);
+    const filteredClimbers = filteredNames.concat(filteredCrags, filteredStyles);
 
     this.climbers = filteredClimbers;
   }

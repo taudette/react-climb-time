@@ -8,6 +8,7 @@ class ClimbersActions {
       'deleteClimberSuccess',
       'deleteClimberFail',
       'filterClimbers',
+      'updateZone',
       'getClimberCountSuccess',
       'getClimberCountFail',
     );
@@ -55,6 +56,10 @@ class ClimbersActions {
 
   filterClimbers(event) {
     this.actions.filterClimbers(event.target.value);
+  }
+
+  updateZone(event) {
+    this.actions.updateZone(event.target.value);
   }
 }
 
